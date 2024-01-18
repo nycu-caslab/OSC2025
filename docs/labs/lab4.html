@@ -1,588 +1,379 @@
 
 <!DOCTYPE html>
 
-<html>
+
+<html lang="en" data-content_root="../" >
+
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Lab 4: Allocator &#8212; IOC5226: Operating System Capstone</title>
-    
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+  <link href="../_static/styles/theme.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
 
-    
-  <link rel="stylesheet"
-    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+  
+  <link href="../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
-    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=384b581d" />
+  
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=bd9e20870c6007c4c509" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=bd9e20870c6007c4c509" />
+  <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=bd9e20870c6007c4c509"></script>
 
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/jquery.js"></script>
-    <script src="../_static/underscore.js"></script>
-    <script src="../_static/doctools.js"></script>
-    <script src="../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
     <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'labs/lab4';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Lab 5: Thread and User Process" href="lab5.html" />
     <link rel="prev" title="Lab 3: Exception and Interrupt" href="lab3.html" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="None">
-    
-
-    <!-- Google Analytics -->
-    
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
-<!-- Checkboxes to toggle the left sidebar -->
-<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
-<label class="overlay overlay-navbar" for="__navigation">
-    <div class="visually-hidden">Toggle navigation sidebar</div>
-</label>
-<!-- Checkboxes to toggle the in-page toc -->
-<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
-<label class="overlay overlay-pagetoc" for="__page-toc">
-    <div class="visually-hidden">Toggle in-page Table of Contents</div>
-</label>
-<!-- Headers at the top -->
-<div class="announcement header-item noprint"></div>
-<div class="header header-item noprint"></div>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
 
+  
+  
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <header>
+  
+    <div class="bd-header navbar navbar-expand-lg bd-navbar">
+    </div>
+  
+  </header>
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
     
-    <div class="container-fluid" id="banner"></div>
-
     
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
 
-    <div class="container-xl">
-      <div class="row">
-          
-<!-- Sidebar -->
-<div class="bd-sidebar noprint" id="site-navigation">
-    <div class="bd-sidebar__content">
-        <div class="bd-sidebar__top"><div class="navbar-brand-box">
-    <a class="navbar-brand text-wrap" href="../index.html">
-      
-      
-      
-      <h1 class="site-logo" id="site-title">IOC5226: Operating System Capstone</h1>
-      
-    </a>
-</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
-  <i class="icon fas fa-search"></i>
-  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
-</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
-    <div class="bd-toc-item active">
-        <p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Class:
- </span>
-</p>
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">IOC5226: Operating System Capstone</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Class:</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../class/staff.html">
-   Staff
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="../class/staff.html">Staff</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Labs:
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Labs:</span></p>
 <ul class="current nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="overview.html">
-   Overview
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="lab0.html">
-   Lab 0: Environment Setup
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="lab1.html">
-   Lab 1: Hello World
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="lab2.html">
-   Lab 2: Booting
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="lab3.html">
-   Lab 3: Exception and Interrupt
-  </a>
- </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
-   Lab 4: Allocator
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="lab5.html">
-   Lab 5: Thread and User Process
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="lab6.html">
-   Lab 6: Virtual Memory
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="lab7.html">
-   Lab 7: Virtual File System
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="lab8.html">
-   Lab 8: Non-volatile Storage
-  </a>
- </li>
- <li class="toctree-l1 has-children">
-  <a class="reference internal" href="hardware/index.html">
-   Hardware
-  </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
-  <label for="toctree-checkbox-1">
-   <i class="fas fa-chevron-down">
-   </i>
-  </label>
-  <ul>
-   <li class="toctree-l2">
-    <a class="reference internal" href="hardware/asm.html">
-     The Assembly You Need
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="hardware/mailbox.html">
-     Mailbox
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="hardware/uart.html">
-     UART
-    </a>
-   </li>
-  </ul>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lab0.html">Lab 0: Environment Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lab1.html">Lab 1: Hello World</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lab2.html">Lab 2: Booting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lab3.html">Lab 3: Exception and Interrupt</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Lab 4: Allocator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lab5.html">Lab 5: Thread and User Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lab6.html">Lab 6: Virtual Memory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lab7.html">Lab 7: Virtual File System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lab8.html">Lab 8: Non-volatile Storage</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="hardware/index.html">Hardware</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="hardware/asm.html">The Assembly You Need</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hardware/mailbox.html">Mailbox</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hardware/uart.html">UART</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  References:
- </span>
-</p>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">References:</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../references/external_resources.html">
-   External Resourses
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../references/old_course.html">
-   Old Course Websites
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="../references/external_resources.html">External Resourses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../references/old_course.html">Old Course Websites</a></li>
 </ul>
 
     </div>
 </nav></div>
-        <div class="bd-sidebar__bottom">
-             <!-- To handle the deprecated key -->
-            
-            <div class="navbar_extra_footer">
-            Theme by the <a href="https://ebp.jupyterbook.org">Executable Book Project</a>
-            </div>
-            
-        </div>
     </div>
-    <div id="rtd-footer-container"></div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/labs/lab4.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
 </div>
 
 
-          
 
 
-          
-<!-- A tiny helper pixel to detect if we've scrolled -->
-<div class="sbt-scroll-pixel-helper"></div>
-<!-- Main content -->
-<div class="col py-0 content-container">
-    
-    <div class="header-article row sticky-top noprint">
-        
-
-
-
-<div class="col py-1 d-flex header-article-main">
-    <div class="header-article__left">
-        
-        <label for="__navigation"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="right"
-title="Toggle navigation"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-bars"></i>
-  </span>
-
-</label>
-
-        
-    </div>
-    <div class="header-article__right">
 <button onclick="toggleFullScreen()"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="bottom"
-title="Fullscreen mode"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
 >
   
 
-<span class="headerbtn__icon-container">
+<span class="btn__icon-container">
   <i class="fas fa-expand"></i>
   </span>
 
 </button>
 
-<div class="menu-dropdown menu-dropdown-download-buttons">
-  <button class="headerbtn menu-dropdown__trigger"
-      aria-label="Download this page">
-      <i class="fas fa-download"></i>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
   </button>
-  <div class="menu-dropdown__content">
-    <ul>
-      <li>
-        <a href="../_sources/labs/lab4.rst.txt"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Download source file"
->
-  
+`);
+</script>
 
-<span class="headerbtn__icon-container">
-  <i class="fas fa-file"></i>
-  </span>
-<span class="headerbtn__text-container">.rst</span>
-</a>
 
-      </li>
-      
-      <li>
-        
-<button onclick="printPdf(this)"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="left"
-title="Print to PDF"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-file-pdf"></i>
-  </span>
-<span class="headerbtn__text-container">.pdf</span>
-</button>
-
-      </li>
-      
-    </ul>
-  </div>
-</div>
-<label for="__page-toc"
-  class="headerbtn headerbtn-page-toc"
-  
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-list"></i>
-  </span>
-
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
 </label>
-
+</div></div>
+      
     </div>
+  
 </div>
-
-<!-- Table of contents -->
-<div class="col-md-3 bd-toc show noprint">
-    <div class="tocsection onthispage pt-5 pb-3">
-        <i class="fas fa-list"></i> Contents
-    </div>
-    <nav id="bd-toc-nav" aria-label="Page">
-        <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#introduction">
-   Introduction
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#goals-of-this-lab">
-   Goals of this lab
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#background">
-   Background
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#reserved-memory">
-     Reserved Memory
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#dynamic-memory-allocator">
-     Dynamic Memory Allocator
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#page-frame-allocator">
-     Page Frame Allocator
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#observability-of-allocators">
-     Observability of Allocators
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#basic-exercises">
-   Basic Exercises
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#basic-exercise-1-buddy-system-40">
-     Basic Exercise 1 - Buddy System - 40%
-    </a>
-    <ul class="nav section-nav flex-column">
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#data-structure">
-       Data Structure
-      </a>
-      <ul class="nav section-nav flex-column">
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#linked-lists-for-blocks-with-different-size">
-         Linked-lists for blocks with different size
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#release-redundant-memory-block">
-         Release redundant memory block
-        </a>
-       </li>
-      </ul>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#free-and-coalesce-blocks">
-       Free and Coalesce Blocks
-      </a>
-      <ul class="nav section-nav flex-column">
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#find-the-buddy">
-         Find the buddy
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#merge-iteratively">
-         Merge iteratively
-        </a>
-       </li>
-      </ul>
-     </li>
-    </ul>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#basic-exercise-2-dynamic-memory-allocator-30">
-     Basic Exercise 2 - Dynamic Memory Allocator - 30%
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#advanced-exercises">
-   Advanced Exercises
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#advanced-exercise-1-efficient-page-allocation-10">
-     Advanced Exercise 1 - Efficient Page Allocation - 10%
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#advanced-exercise-2-reserved-memory-10">
-     Advanced Exercise 2 - Reserved Memory - 10%
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#advanced-exercise-3-startup-allocation-20">
-     Advanced Exercise 3 - Startup Allocation - 20%
-    </a>
-   </li>
-  </ul>
- </li>
-</ul>
-
-    </nav>
 </div>
-    </div>
-    <div class="article row">
-        <div class="col pl-md-3 pl-lg-5 content-container">
-            <!-- Table of contents that is only displayed when printing the page -->
-            <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Lab 4: Allocator</h1>
-                <!-- Table of contents -->
-                <div id="print-main-content">
-                    <div id="jb-print-toc">
-                        
-                        <div>
-                            <h2> Contents </h2>
-                        </div>
-                        <nav aria-label="Page">
-                            <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#introduction">
-   Introduction
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#goals-of-this-lab">
-   Goals of this lab
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#background">
-   Background
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#reserved-memory">
-     Reserved Memory
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#dynamic-memory-allocator">
-     Dynamic Memory Allocator
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#page-frame-allocator">
-     Page Frame Allocator
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#observability-of-allocators">
-     Observability of Allocators
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#basic-exercises">
-   Basic Exercises
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#basic-exercise-1-buddy-system-40">
-     Basic Exercise 1 - Buddy System - 40%
-    </a>
-    <ul class="nav section-nav flex-column">
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#data-structure">
-       Data Structure
-      </a>
-      <ul class="nav section-nav flex-column">
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#linked-lists-for-blocks-with-different-size">
-         Linked-lists for blocks with different size
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#release-redundant-memory-block">
-         Release redundant memory block
-        </a>
-       </li>
-      </ul>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#free-and-coalesce-blocks">
-       Free and Coalesce Blocks
-      </a>
-      <ul class="nav section-nav flex-column">
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#find-the-buddy">
-         Find the buddy
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#merge-iteratively">
-         Merge iteratively
-        </a>
-       </li>
-      </ul>
-     </li>
-    </ul>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#basic-exercise-2-dynamic-memory-allocator-30">
-     Basic Exercise 2 - Dynamic Memory Allocator - 30%
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#advanced-exercises">
-   Advanced Exercises
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#advanced-exercise-1-efficient-page-allocation-10">
-     Advanced Exercise 1 - Efficient Page Allocation - 10%
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#advanced-exercise-2-reserved-memory-10">
-     Advanced Exercise 2 - Reserved Memory - 10%
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#advanced-exercise-3-startup-allocation-20">
-     Advanced Exercise 3 - Startup Allocation - 20%
-    </a>
-   </li>
-  </ul>
- </li>
-</ul>
+              
+              
 
-                        </nav>
-                    </div>
-                </div>
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Lab 4: Allocator</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
             </div>
-            <main id="main-content" role="main">
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#goals-of-this-lab">Goals of this lab</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#background">Background</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reserved-memory">Reserved Memory</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dynamic-memory-allocator">Dynamic Memory Allocator</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#page-frame-allocator">Page Frame Allocator</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#observability-of-allocators">Observability of Allocators</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-exercises">Basic Exercises</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-exercise-1-buddy-system-40">Basic Exercise 1 - Buddy System - 40%</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#data-structure">Data Structure</a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#linked-lists-for-blocks-with-different-size">Linked-lists for blocks with different size</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#release-redundant-memory-block">Release redundant memory block</a></li>
+</ul>
+</li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#free-and-coalesce-blocks">Free and Coalesce Blocks</a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#find-the-buddy">Find the buddy</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#merge-iteratively">Merge iteratively</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-exercise-2-dynamic-memory-allocator-30">Basic Exercise 2 - Dynamic Memory Allocator - 30%</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#advanced-exercises">Advanced Exercises</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#advanced-exercise-1-efficient-page-allocation-10">Advanced Exercise 1 - Efficient Page Allocation - 10%</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#advanced-exercise-2-reserved-memory-10">Advanced Exercise 2 - Reserved Memory - 10%</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#advanced-exercise-3-startup-allocation-20">Advanced Exercise 3 - Startup Allocation - 20%</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
                 
-              <div>
-                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
   <section id="lab-4-allocator">
-<h1>Lab 4: Allocator<a class="headerlink" href="#lab-4-allocator" title="Permalink to this headline">#</a></h1>
+<h1>Lab 4: Allocator<a class="headerlink" href="#lab-4-allocator" title="Link to this heading">#</a></h1>
 <section id="introduction">
-<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">#</a></h2>
+<h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">#</a></h2>
 <p>A kernel allocates physical memory for maintaining its internal states and user programs’ use.
 Without memory allocators, you need to statically partition the physical memory into several memory pools for
 different objects.
@@ -594,7 +385,7 @@ Therefore, dynamic memory allocation is necessary.</p>
 They’ll be used in all later labs.</p>
 </section>
 <section id="goals-of-this-lab">
-<h2>Goals of this lab<a class="headerlink" href="#goals-of-this-lab" title="Permalink to this headline">#</a></h2>
+<h2>Goals of this lab<a class="headerlink" href="#goals-of-this-lab" title="Link to this heading">#</a></h2>
 <ul class="simple">
 <li><p>Implement a page frame allocator.</p></li>
 <li><p>Implement a dynamic memory allocator.</p></li>
@@ -602,16 +393,16 @@ They’ll be used in all later labs.</p>
 </ul>
 </section>
 <section id="background">
-<h2>Background<a class="headerlink" href="#background" title="Permalink to this headline">#</a></h2>
+<h2>Background<a class="headerlink" href="#background" title="Link to this heading">#</a></h2>
 <section id="reserved-memory">
-<h3>Reserved Memory<a class="headerlink" href="#reserved-memory" title="Permalink to this headline">#</a></h3>
+<h3>Reserved Memory<a class="headerlink" href="#reserved-memory" title="Link to this heading">#</a></h3>
 <p>After rpi3 is booted, some physical memory is already in use.
 For example, there are already spin tables for multicore boot(<code class="docutils literal notranslate"><span class="pre">0x0000</span> <span class="pre">-</span> <span class="pre">0x1000</span></code>), flatten device tree,
 initramfs, and your kernel image in the physical memory.
 Your memory allocator should not allocate these memory blocks if you still need to use them.</p>
 </section>
 <section id="dynamic-memory-allocator">
-<h3>Dynamic Memory Allocator<a class="headerlink" href="#dynamic-memory-allocator" title="Permalink to this headline">#</a></h3>
+<h3>Dynamic Memory Allocator<a class="headerlink" href="#dynamic-memory-allocator" title="Link to this heading">#</a></h3>
 <p>Given the allocation size,
 a dynamic memory allocator needs to find a large enough contiguous memory block and return the pointer to it.
 Also, the memory block would be released after use.
@@ -619,7 +410,7 @@ A dynamic memory allocator should be able to reuse the memory block for another 
 Reserved or allocated memory should not be allocated again to prevent data corruption.</p>
 </section>
 <section id="page-frame-allocator">
-<h3>Page Frame Allocator<a class="headerlink" href="#page-frame-allocator" title="Permalink to this headline">#</a></h3>
+<h3>Page Frame Allocator<a class="headerlink" href="#page-frame-allocator" title="Link to this heading">#</a></h3>
 <p>You may be wondering why you are asked to implement another memory allocator for page frames.
 Isn’t a well-designed dynamic memory allocator enough for all dynamic memory allocation cases?
 Indeed, you don’t need it if you run applications in kernel space only.</p>
@@ -634,7 +425,7 @@ The page frame allocator should be able to allocate contiguous page frames for a
 For fine-grained memory allocation, a dynamic memory allocator can allocate a page frame first then cut it into chunks.</p>
 </section>
 <section id="observability-of-allocators">
-<h3>Observability of Allocators<a class="headerlink" href="#observability-of-allocators" title="Permalink to this headline">#</a></h3>
+<h3>Observability of Allocators<a class="headerlink" href="#observability-of-allocators" title="Link to this heading">#</a></h3>
 <p>It’s hard to observe the internal state of a memory allocator and hence hard to demo.
 To check the correctness of your allocator, you need to <strong>print the log of each allocation and free</strong>.</p>
 <div class="admonition note">
@@ -644,11 +435,11 @@ To check the correctness of your allocator, you need to <strong>print the log of
 </section>
 </section>
 <section id="basic-exercises">
-<h2>Basic Exercises<a class="headerlink" href="#basic-exercises" title="Permalink to this headline">#</a></h2>
+<h2>Basic Exercises<a class="headerlink" href="#basic-exercises" title="Link to this heading">#</a></h2>
 <p>In the basic part, your allocator doesn’t need to deal with the reserved memory problem.
 You can find an unused memory region (e.g. 0x1000_0000 -&gt; 0x2000_0000) and manage that part of memory only.</p>
 <section id="basic-exercise-1-buddy-system-40">
-<h3>Basic Exercise 1 - Buddy System - 40%<a class="headerlink" href="#basic-exercise-1-buddy-system-40" title="Permalink to this headline">#</a></h3>
+<h3>Basic Exercise 1 - Buddy System - 40%<a class="headerlink" href="#basic-exercise-1-buddy-system-40" title="Link to this heading">#</a></h3>
 <p>Buddy system is a well-known and simple algorithm for allocating contiguous memory blocks.
 It has an internal fragmentation problem, but it’s still suitable for page frame allocation
 because the problem can be reduced with the dynamic memory allocator.
@@ -663,7 +454,7 @@ You can still design it yourself as long as you follow the specification of the 
 <p>You don’t need to handle the case of out-of-memory.</p>
 </div>
 <section id="data-structure">
-<h4>Data Structure<a class="headerlink" href="#data-structure" title="Permalink to this headline">#</a></h4>
+<h4>Data Structure<a class="headerlink" href="#data-structure" title="Link to this heading">#</a></h4>
 <p><strong>The Frame Array</strong> (or <em>“The Array”</em>, so to speak)</p>
 <p><em>The Array</em> represents the allocation status of the memory by constructing a 1-1 relationship between the physical memory frame and <em>The Array</em>’s entries.
 For example, if the size of the total allocable memory is 200kb with each frame being 4kb. Then <em>The Array</em> would consist of 50 entries, with the first and the second entry representing memory addresses starts from 0x0 and 0x1000(4k).</p>
@@ -687,14 +478,14 @@ For example, if the size of the total allocable memory is 200kb with each frame 
 <li><p><span class="math notranslate nohighlight">\(\text{block's size} = 4096 \times 2^\text{block's exponent}\)</span></p></li>
 </ul>
 <section id="linked-lists-for-blocks-with-different-size">
-<h5>Linked-lists for blocks with different size<a class="headerlink" href="#linked-lists-for-blocks-with-different-size" title="Permalink to this headline">#</a></h5>
+<h5>Linked-lists for blocks with different size<a class="headerlink" href="#linked-lists-for-blocks-with-different-size" title="Link to this heading">#</a></h5>
 <p>You can set a maximum contiguous block size and create one linked-list for each size.
 The linked-list links free blocks of the same size.
 The buddy allocator’s search starts from the specified block size list.
 If the list is empty, it tries to find a larger block in a larger block list</p>
 </section>
 <section id="release-redundant-memory-block">
-<span id="release-redu"></span><h5>Release redundant memory block<a class="headerlink" href="#release-redundant-memory-block" title="Permalink to this headline">#</a></h5>
+<span id="release-redu"></span><h5>Release redundant memory block<a class="headerlink" href="#release-redundant-memory-block" title="Link to this heading">#</a></h5>
 <p>The above algorithm may allocate one block far larger than the required size.
 The allocator should cut off the bottom half of the block and put it back to the buddy system until the size equals the required size.</p>
 <div class="admonition note">
@@ -704,17 +495,17 @@ The allocator should cut off the bottom half of the block and put it back to the
 </section>
 </section>
 <section id="free-and-coalesce-blocks">
-<h4>Free and Coalesce Blocks<a class="headerlink" href="#free-and-coalesce-blocks" title="Permalink to this headline">#</a></h4>
+<h4>Free and Coalesce Blocks<a class="headerlink" href="#free-and-coalesce-blocks" title="Link to this heading">#</a></h4>
 <p>To make the buddy system contains larger contiguous memory blocks.
 When the user frees the allocated memory block, the buddy allocator should not naively put it back to the linked-list.
 It should try to <a class="reference internal" href="#find-buddy"><span class="std std-ref">Find the buddy</span></a> and <a class="reference internal" href="#merge-iter"><span class="std std-ref">Merge iteratively</span></a>.</p>
 <section id="find-the-buddy">
-<span id="find-buddy"></span><h5>Find the buddy<a class="headerlink" href="#find-the-buddy" title="Permalink to this headline">#</a></h5>
+<span id="find-buddy"></span><h5>Find the buddy<a class="headerlink" href="#find-the-buddy" title="Link to this heading">#</a></h5>
 <p>You can use the block’s index xor with its exponent to find its buddy.
 If its buddy is in the page frame array, then you can merge them to a larger block.</p>
 </section>
 <section id="merge-iteratively">
-<span id="merge-iter"></span><h5>Merge iteratively<a class="headerlink" href="#merge-iteratively" title="Permalink to this headline">#</a></h5>
+<span id="merge-iter"></span><h5>Merge iteratively<a class="headerlink" href="#merge-iteratively" title="Link to this heading">#</a></h5>
 <p>There is still a possible buddy for the merged block.
 You should use the same way to find the buddy of the merge block.
 When you can’t find the buddy of the merged block or the merged block size is maximum-block-size,
@@ -727,7 +518,7 @@ the allocator stops and put the merged block to the linked-list.</p>
 </section>
 </section>
 <section id="basic-exercise-2-dynamic-memory-allocator-30">
-<h3>Basic Exercise 2 - Dynamic Memory Allocator - 30%<a class="headerlink" href="#basic-exercise-2-dynamic-memory-allocator-30" title="Permalink to this headline">#</a></h3>
+<h3>Basic Exercise 2 - Dynamic Memory Allocator - 30%<a class="headerlink" href="#basic-exercise-2-dynamic-memory-allocator-30" title="Link to this heading">#</a></h3>
 <p>Your page frame allocator already provides the functionality for large contiguous memory allocation.
 Your dynamic memory allocator only needs to add a wrapper to translate a page frame to its physical address.
 For small memory allocation, you can create several memory pools for some common size such as [16, 32, 48, 96 …].
@@ -745,9 +536,9 @@ The allocator can use it to determine the memory pool the chunk belonged to when
 </section>
 </section>
 <section id="advanced-exercises">
-<h2>Advanced Exercises<a class="headerlink" href="#advanced-exercises" title="Permalink to this headline">#</a></h2>
+<h2>Advanced Exercises<a class="headerlink" href="#advanced-exercises" title="Link to this heading">#</a></h2>
 <section id="advanced-exercise-1-efficient-page-allocation-10">
-<span id="startup-alloc"></span><h3>Advanced Exercise 1 - Efficient Page Allocation - 10%<a class="headerlink" href="#advanced-exercise-1-efficient-page-allocation-10" title="Permalink to this headline">#</a></h3>
+<span id="startup-alloc"></span><h3>Advanced Exercise 1 - Efficient Page Allocation - 10%<a class="headerlink" href="#advanced-exercise-1-efficient-page-allocation-10" title="Link to this heading">#</a></h3>
 <p>Basically, when you dynamically assign or free a page, your buddy system’s response time should be as quick as feasible.
 In the basic part, we only care about the correctness of your implementation, but in this section, you must devise a technique to access the page frame node in constant time.</p>
 <div class="admonition-todo admonition">
@@ -756,13 +547,13 @@ In the basic part, we only care about the correctness of your implementation, bu
 </div>
 </section>
 <section id="advanced-exercise-2-reserved-memory-10">
-<h3>Advanced Exercise 2 - Reserved Memory - 10%<a class="headerlink" href="#advanced-exercise-2-reserved-memory-10" title="Permalink to this headline">#</a></h3>
+<h3>Advanced Exercise 2 - Reserved Memory - 10%<a class="headerlink" href="#advanced-exercise-2-reserved-memory-10" title="Link to this heading">#</a></h3>
 <p>As previously noted in the background, when rpi3 is booted, some physical memory is already in use, not allocable memory blocks must be marked.
 In this task, you should design an API to reserve specific locations.</p>
 <p>The following code is a brief example:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">memory_reserve</span><span class="p">(</span><span class="n">start</span><span class="p">,</span><span class="w"> </span><span class="n">end</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">memory_reserve</span><span class="p">(</span><span class="n">start</span><span class="p">,</span><span class="w"> </span><span class="n">end</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="c1">//…</span>
-<span class="p">}</span><span class="w"></span>
+<span class="p">}</span>
 </pre></div>
 </div>
 <div class="admonition-todo admonition">
@@ -771,7 +562,7 @@ In this task, you should design an API to reserve specific locations.</p>
 </div>
 </section>
 <section id="advanced-exercise-3-startup-allocation-20">
-<h3>Advanced Exercise 3 - Startup Allocation - 20%<a class="headerlink" href="#advanced-exercise-3-startup-allocation-20" title="Permalink to this headline">#</a></h3>
+<h3>Advanced Exercise 3 - Startup Allocation - 20%<a class="headerlink" href="#advanced-exercise-3-startup-allocation-20" title="Link to this heading">#</a></h3>
 <p>In general purpose operating systems, the amount of physical memory is determined at runtime. Hence, a kernel needs to dynamically allocate its page frame array for its page frame allocator. The page frame allocator then depends on dynamic memory allocation. The dynamic memory allocator depends on the page frame allocator. This introduces the chicken or the egg problem. To break the dilemma, you need a dedicated startup allocator during startup time.</p>
 <p>The design of the startup allocator is quite simple. Simply implement a dynamic memory allocator not based on the page allocator, i.e., you can use the simple allocator designed in Lab2 as the initial startup allocator.
 Startup allocation, on the other hand, is the procedure to record the start address and size of the allocated and reserved blocks in the array. Your startup allocation should be able to reserve memory for the buddy system, kernel, initramfs, etc. In the end, it hands the physical memory to the buddy system. The buddy system should mark the reserved segment as allocated</p>
@@ -801,50 +592,134 @@ Startup allocation, on the other hand, is the procedure to record the start addr
 </section>
 
 
-              </div>
+                </article>
               
-            </main>
-            <footer class="footer-article noprint">
-                
-    <!-- Previous / next buttons -->
-<div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="lab3.html" title="previous page">
-        <i class="fas fa-angle-left"></i>
-        <div class="prev-next-info">
-            <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Lab 3: Exception and Interrupt</p>
-        </div>
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="lab3.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Lab 3: Exception and Interrupt</p>
+      </div>
     </a>
-    <a class='right-next' id="next-link" href="lab5.html" title="next page">
-    <div class="prev-next-info">
+    <a class="right-next"
+       href="lab5.html"
+       title="next page">
+      <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
         <p class="prev-next-title">Lab 5: Thread and User Process</p>
-    </div>
-    <i class="fas fa-angle-right"></i>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div>
-            </footer>
-        </div>
-    </div>
-    <div class="footer-content row">
-        <footer class="col footer"><p>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#goals-of-this-lab">Goals of this lab</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#background">Background</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reserved-memory">Reserved Memory</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dynamic-memory-allocator">Dynamic Memory Allocator</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#page-frame-allocator">Page Frame Allocator</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#observability-of-allocators">Observability of Allocators</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-exercises">Basic Exercises</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-exercise-1-buddy-system-40">Basic Exercise 1 - Buddy System - 40%</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#data-structure">Data Structure</a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#linked-lists-for-blocks-with-different-size">Linked-lists for blocks with different size</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#release-redundant-memory-block">Release redundant memory block</a></li>
+</ul>
+</li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#free-and-coalesce-blocks">Free and Coalesce Blocks</a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#find-the-buddy">Find the buddy</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#merge-iteratively">Merge iteratively</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-exercise-2-dynamic-memory-allocator-30">Basic Exercise 2 - Dynamic Memory Allocator - 30%</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#advanced-exercises">Advanced Exercises</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#advanced-exercise-1-efficient-page-allocation-10">Advanced Exercise 1 - Efficient Page Allocation - 10%</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#advanced-exercise-2-reserved-memory-10">Advanced Exercise 2 - Reserved Memory - 10%</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#advanced-exercise-3-startup-allocation-20">Advanced Exercise 3 - Startup Allocation - 20%</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
   
-    By Jim, Muller<br/>
-  
-      &copy; Copyright 2021, Jim, Muller.<br/>
-</p>
-        </footer>
-    </div>
+  <div class="footer-item">
     
+<p class="component-author">
+By Jim, Muller
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2021, Jim, Muller.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
 </div>
+          </footer>
+        
 
-
-      </div>
+      </main>
     </div>
+  </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+  <script src="../_static/scripts/bootstrap.js?digest=bd9e20870c6007c4c509"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=bd9e20870c6007c4c509"></script>
 
-
+  <footer class="bd-footer">
+  </footer>
   </body>
 </html>
