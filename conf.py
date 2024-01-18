@@ -17,9 +17,9 @@
 # -- Project information -----------------------------------------------------
 
 project = 'Operating System Capstone'
-html_title = 'IOC5226: Operating System Capstone'
-copyright = '2021, Jim, Muller'
-author = 'Jim, Muller'
+html_title = 'CSIC30016: Operating System Capstone'
+copyright = '2024, NYCU cas-lab'
+author = ' NYCU cas-lab'
 
 # -- General configuration ---------------------------------------------------
 

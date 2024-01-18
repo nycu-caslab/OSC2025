@@ -1,4 +1,4 @@
-Welcome to Operating System Capstone, Spring 2023!
+Welcome to Operating System Capstone, Spring 2024!
 ==================================================
 
 This course aims to introduce the design and implementation of operating system kernels.
@@ -18,7 +18,7 @@ Lecture and Office Hours
    +--------------------+------------------------------+---------------------------+
    | Title              | Time                         | Location                  |
    +====================+==============================+===========================+
-   | Lectures           | 3:30 - 5:20 pm (Tue.)        | ED-302                    |
+   | Lectures           | 10:10 - 12:00 pm (Mon.)      | ED-302                    |
    +--------------------+------------------------------+---------------------------+
    | Office Hours       | 5:00 - 6:00 pm (Mon.)        | EC-707                    |
    +--------------------+------------------------------+---------------------------+
