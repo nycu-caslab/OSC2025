@@ -158,7 +158,8 @@ There are two ways to do it.
 
 1.
   We already prepared a `bootable image
-  <https://github.com/GrassLab/osdi/raw/master/supplement/nctuos.img>`_.
+  <https://github.com/nycu-caslab/OSC2024/raw/main/supplement/nycuos.img>`_.
+
   You can use the following command to flash it to your SD card.
 
   .. code-block:: none
