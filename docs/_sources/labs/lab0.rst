@@ -164,7 +164,7 @@ There are two ways to do it.
 
   .. code-block:: none
 
-    dd if=nctuos.img of=/dev/sdb
+    dd if=nycuos.img of=/dev/sdb
 
   .. warning:: /dev/sdb should be replaced by your SD card device. You can check it by `lsblk`
 
