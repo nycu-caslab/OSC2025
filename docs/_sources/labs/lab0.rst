@@ -197,7 +197,7 @@ Interact with Rpi3
 In our provided bootable image, it contains a kernel image that can echoes what you type through UART.
 You can use it to test if your Lab kits function well.
 
-1. If you use method 2 to set up your bootable image, you should download `kernel8.img <https://github.com/GrassLab/osdi/raw/master/supplement/kernel8.img>`_
+1. If you use method 2 to set up your bootable image, you should download `kernel8.img <https://github.com/nycu-caslab/OSC2024/raw/main/supplement/kernel8.img>`_
 , and put it into your boot partition. It's identical to the one in the provided bootable image.
 
 2. Plug in the UART to USB converter to your host machine, and open it through a serial console such as screen or putty with the correct baud rate.
