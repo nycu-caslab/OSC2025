@@ -22,14 +22,14 @@ Lecture and Office Hours
    +--------------------+------------------------------+---------------------------+
    | Office Hours       | 5:00 - 6:00 pm (Mon.)        | EC-707                    |
    +--------------------+------------------------------+---------------------------+
-   | Lab Demo Hours     | 6:00 - 9:00 pm (Thur.)       | EC-222                    |
+   | Lab Demo Hours     | 7:00 - 9:00 pm (Thur.)       | EC-222                    |
    +--------------------+------------------------------+---------------------------+
-   | Lecture Website    | `tinyurl.com/5bc8uewe <https://tinyurl.com/5bc8uewe>`_   |
+   | Lecture Website    | `Link <https://people.cs.nycu.edu.tw/~ttyeh/course/2024_Spring/IOC5226/outline.html>`_   |
    +--------------------+----------------------------------------------------------+
 
 .. important::
   Check the `lecture website`_ for the schedule and the lecture slides!
-.. _lecture website: https://people.cs.nctu.edu.tw/~ttyeh/course/2023_Spring/IOC5226/outline.html
+.. _lecture website: https://people.cs.nycu.edu.tw/~ttyeh/course/2024_Spring/IOC5226/outline.html
 
 
 .. important::
