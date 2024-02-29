@@ -202,13 +202,15 @@ You can use it to test if your Lab kits function well.
 
 2. Plug in the UART to USB converter to your host machine, and open it through a serial console such as screen or putty with the correct baud rate.
 
-3. Connect TX, RX, GND to the corresponding pins on rpi3, and turn on your rpi3.
+3. Connect TX, RX, GND to the corresponding pins on rpi3, and turn on your rpi3. You can follow the picture below to set up your UART.
 
 4. After your rpi3 powers on, you can type some letters, and your serial console should print what you just typed.
 
 .. code-block:: none
 
   screen /dev/ttyUSB0 115200
+
+.. image:: images/UART.png
 
 *********
 Debugging
