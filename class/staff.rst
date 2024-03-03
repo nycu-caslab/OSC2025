@@ -29,3 +29,8 @@ Teaching assistants
 
 * vic900511.cs12 [at] nycu.edu.tw
 * Location: EC619
+
+**Chen-Pin Yang**
+
+* ycpin.cs12 [at] nycu.edu.tw
+* Location: EC619
