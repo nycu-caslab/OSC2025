@@ -70,7 +70,7 @@ Initialization
 .. math::
   \text{baud rate} = \frac{\text{systemx clock freq}}{8\times(\text{AUX_MU_BAUD}+1)}
     
-7. Set AUX_MU_IIR_REG to 6. No FIFO.
+7. Set AUX_MU_IIR_REG to 6.
 
 8. Set AUX_MU_CNTL_REG to 3. Enable the transmitter and receiver.
 
