@@ -1,0 +1,536 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Mailbox &#8212; CSIC30016: Operating System Capstone</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'labs/hardware/mailbox';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="UART" href="uart.html" />
+    <link rel="prev" title="The Assembly You Need" href="asm.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">CSIC30016: Operating System Capstone</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Class:</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../class/staff.html">Staff</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Labs:</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lab0.html">Lab 0: Environment Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lab1.html">Lab 1: Hello World</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lab2.html">Lab 2: Booting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lab3.html">Lab 3: Exception and Interrupt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lab4.html">Lab 4: Allocator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lab5.html">Lab 5: Thread and User Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lab6.html">Lab 6: Virtual Memory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lab7.html">Lab 7: Virtual File System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lab8.html">Lab 8: Non-volatile Storage</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Hardware</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="asm.html">The Assembly You Need</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Mailbox</a></li>
+<li class="toctree-l2"><a class="reference internal" href="uart.html">UART</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">References:</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../references/external_resources.html">External Resourses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../references/old_course.html">Old Course Websites</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/labs/hardware/mailbox.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Mailbox</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basics">Basics</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tag">Tag</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#framebuffer">Framebuffer</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="mailbox">
+<span id="id1"></span><h1>Mailbox<a class="headerlink" href="#mailbox" title="Link to this heading">#</a></h1>
+<p>Mailbox is a communication mechanism  between ARM and VideoCoreIV GPU.
+You can use it to set framebuffer or configure some peripherals.</p>
+<p>We only list the materials needed for the labs.
+For details, please refer to <a class="github reference external" href="https://github.com/raspberrypi/firmware/wiki/Mailboxes">raspberrypi/firmware</a></p>
+<section id="basics">
+<h2>Basics<a class="headerlink" href="#basics" title="Link to this heading">#</a></h2>
+<p>The mailbox mechanism consists of three components mailbox registers, channels, and messages.</p>
+<p><strong>Mailbox registers</strong></p>
+<p>Mailbox registers are accessed by MMIO, we only need Mailbox 0 Read/Write (CPU read from GPU),
+Mailbox 0 status (check GPU status) and Mailbox 1 Read/Write(CPU write to GPU)</p>
+<p><strong>Channels</strong></p>
+<p>Mailbox 0 define several channels, but we only use channel 8 (CPU-&gt;GPU) for communication.</p>
+<p><strong>Message</strong></p>
+<p>To pass messages by the mailbox, you need to prepare a message array.
+Then apply the following steps.</p>
+<ol class="arabic simple">
+<li><p>Combine the message address (upper 28 bits) with channel number (lower 4 bits)</p></li>
+<li><p>Check if Mailbox 0 status register’s full flag is set.</p></li>
+<li><p>If not, then you can write to Mailbox 1 Read/Write register.</p></li>
+<li><p>Check if Mailbox 0 status register’s empty flag is set.</p></li>
+<li><p>If not, then you can read from Mailbox 0 Read/Write register.</p></li>
+<li><p>Check if the value is the same as you wrote in step 1.</p></li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Because only upper 28 bits of message address could be passed, the message array should be correctly aligned.</p>
+</div>
+<p><strong>mailbox address and flags</strong></p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#define MMIO_BASE       0x3f000000</span>
+<span class="cp">#define MAILBOX_BASE    MMIO_BASE + 0xb880</span>
+
+<span class="cp">#define MAILBOX_READ    MAILBOX_BASE</span>
+<span class="cp">#define MAILBOX_STATUS  MAILBOX_BASE + 0x18</span>
+<span class="cp">#define MAILBOX_WRITE   MAILBOX_BASE + 0x20</span>
+
+<span class="cp">#define MAILBOX_EMPTY   0x40000000</span>
+<span class="cp">#define MAILBOX_FULL    0x80000000</span>
+</pre></div>
+</div>
+</section>
+<section id="tag">
+<h2>Tag<a class="headerlink" href="#tag" title="Link to this heading">#</a></h2>
+<p>Mailbox property interface(channel 8, 9) contains several tags to indicate different operations.
+You should refer to <a class="github reference external" href="https://github.com/raspberrypi/firmware/wiki/Mailbox-property-interface">raspberrypi/firmware</a>
+to get detail specifications.</p>
+<p>Below, we provide an example to get rpi3’s board revision number.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#define GET_BOARD_REVISION  0x00010002</span>
+<span class="cp">#define REQUEST_CODE        0x00000000</span>
+<span class="cp">#define REQUEST_SUCCEED     0x80000000</span>
+<span class="cp">#define REQUEST_FAILED      0x80000001</span>
+<span class="cp">#define TAG_REQUEST_CODE    0x00000000</span>
+<span class="cp">#define END_TAG             0x00000000</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">get_board_revision</span><span class="p">(){</span>
+<span class="w">  </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">mailbox</span><span class="p">[</span><span class="mi">7</span><span class="p">];</span>
+<span class="w">  </span><span class="n">mailbox</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">7</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">4</span><span class="p">;</span><span class="w"> </span><span class="c1">// buffer size in bytes</span>
+<span class="w">  </span><span class="n">mailbox</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">REQUEST_CODE</span><span class="p">;</span>
+<span class="w">  </span><span class="c1">// tags begin</span>
+<span class="w">  </span><span class="n">mailbox</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GET_BOARD_REVISION</span><span class="p">;</span><span class="w"> </span><span class="c1">// tag identifier</span>
+<span class="w">  </span><span class="n">mailbox</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="p">;</span><span class="w"> </span><span class="c1">// maximum of request and response value buffer&#39;s length.</span>
+<span class="w">  </span><span class="n">mailbox</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TAG_REQUEST_CODE</span><span class="p">;</span>
+<span class="w">  </span><span class="n">mailbox</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="c1">// value buffer</span>
+<span class="w">  </span><span class="c1">// tags end</span>
+<span class="w">  </span><span class="n">mailbox</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">END_TAG</span><span class="p">;</span>
+
+<span class="w">  </span><span class="n">mailbox_call</span><span class="p">(</span><span class="n">mailbox</span><span class="p">);</span><span class="w"> </span><span class="c1">// message passing procedure call, you should implement it following the 6 steps provided above.</span>
+
+<span class="w">  </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;0x%x</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">mailbox</span><span class="p">[</span><span class="mi">5</span><span class="p">]);</span><span class="w"> </span><span class="c1">// it should be 0xa020d3 for rpi3 b+</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="framebuffer">
+<h2>Framebuffer<a class="headerlink" href="#framebuffer" title="Link to this heading">#</a></h2>
+<p>Rpi3 has a display output which controlled by GPU.
+You can set GPU’s framebuffer by mailbox to show an image or text on your screen.</p>
+<p>There are several items to configure.
+I list some of them with brief explanations.
+You should experiment in different configurations on real rpi3 to get a better understanding.</p>
+<ul>
+<li><p><strong>Allocate buffer:</strong>
+To get the framebuffer’s memory base address.
+Then you can set pixel’s color according to its address.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The buffer address returned by GPU should be bitwise AND with 0x3fff_ffff.</p>
+</div>
+</li>
+<li><p><strong>Physical (display) width/height:</strong>
+The display buffer size.</p></li>
+<li><p><strong>Virtual (buffer) width/height:</strong>
+A portion of framebuffer that sends to display.</p></li>
+<li><p><strong>Virtual (buffer) offset:</strong>
+The virtual buffer’s size might be bigger than the display buffer’s size, an offset is used to decide which part of the virtual buffer is sent to display.</p></li>
+<li><p><strong>Depth:</strong>
+How many bits to represent a pixel.</p></li>
+<li><p><strong>Pixel order:</strong>
+Pixel order is either RGB or BGR.</p></li>
+<li><p><strong>Get pitch:</strong>
+Pitch is how many bytes stores per horizontal line.
+For drawing k’th row in the screen, you need to skip k times pitch instead of k times display width.</p></li>
+</ul>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="asm.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">The Assembly You Need</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="uart.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">UART</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basics">Basics</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tag">Tag</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#framebuffer">Framebuffer</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By  NYCU cas-lab
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024, NYCU cas-lab.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
