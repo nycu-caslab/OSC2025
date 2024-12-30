@@ -124,7 +124,7 @@ You can use ``objcopy`` to convert ELF files to raw binary.
 
   aarch64-linux-gnu-objcopy -O binary kernel8.elf kernel8.img
   # Or
-  llvm-objcopy --output-target=aarch64-rpi3-elf -O binary kernel8.elf kernle8.img
+  llvm-objcopy --output-target=aarch64-rpi3-elf -O binary kernel8.elf kernel8.img
 
 Check on QEMU
 #############
