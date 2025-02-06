@@ -3,7 +3,7 @@ Overview
 
 Labs
 ####
-There are 8 + 1 labs in this course.
+There are 7 + 1 labs in this course.
 You'll learn how to **design** a kernel by **implementing** it yourself.
 
 There are 2 types of exercises in each lab.
