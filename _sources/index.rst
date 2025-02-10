@@ -20,16 +20,16 @@ Lecture and Office Hours
    +====================+==============================+===========================================================+
    | Lectures           | 3:30 - 5:20 pm (Tue.)        | EC-022                                                    |
    +--------------------+------------------------------+-----------------------------------------------------------+
-   | Office Hours       | TBA                          | EC-516                                                    |
+   | Office Hours       | 2:30 - 3:20 pm (Tue.)        | EC-516                                                    |
    +--------------------+------------------------------+-----------------------------------------------------------+
    | Lab Demo Hours     | 7:00 - 9:00 pm (Tue.)        | EC-222                                                    |
    +--------------------+------------------------------+-----------------------------------------------------------+
-   | Lecture Website    | `Link <https://people.cs.nycu.edu.tw/~ttyeh/course/2024_Spring/IOC5226/outline.html>`_   |
+   | Lecture Website    | `Link <https://people.cs.nycu.edu.tw/~ttyeh/course/2025_Spring/IOC5226/outline.html>`_   |
    +--------------------+------------------------------------------------------------------------------------------+
 
 .. important::
   Check the `lecture website`_ for the schedule and the lecture slides!
-.. _lecture website: https://people.cs.nycu.edu.tw/~ttyeh/course/2024_Spring/IOC5226/outline.html
+.. _lecture website: https://people.cs.nycu.edu.tw/~ttyeh/course/2025_Spring/IOC5226/outline.html
 
 
 .. important::
