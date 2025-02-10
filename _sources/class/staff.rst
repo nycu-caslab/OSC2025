@@ -27,7 +27,7 @@ Teaching assistants
 
 **Ching Chen**
 
-* mshuangp585.cs13 [at] nycu.edu.tw
+* cchen.cs13 [at] nycu.edu.yw
 * Discord: _o0o0o0o
 
 **Wei-Cheng Wu**
