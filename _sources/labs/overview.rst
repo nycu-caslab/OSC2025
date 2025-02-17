@@ -28,7 +28,7 @@ Yet, the requirements and descriptions may differ this semester.
 Grading Policy
 ##############
 
-**PLAGIARISM is now allowed**, including copying from previous years.
+**PLAGIARISM is not allowed**, including copying from previous years.
 
 It's allowed and recommended to discuss with others, but you still need to write it on your own
 instead of copy/paste.
