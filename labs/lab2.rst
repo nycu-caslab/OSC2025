@@ -55,10 +55,19 @@ Basic Exercise 1 - UART Bootloader - 30%
 In Lab 1, you might experience the process of moving the SD card between your host and rpi3 very often during debugging.
 You can eliminate this by introducing another bootloader to load the kernel under debugging.
 
-To send binary through UART, you should devise a protocol to read raw data.
-It rarely drops data during transmission, so you can keep the protocol simple.
+To send binary through UART, you should devise a protocol to read raw data. 
+It rarely drops data during transmission, so you can keep the protocol simple. Here is a simple example of what a protocol might look like.
 
-You can effectively write data from the host to rpi3 by serial device's device file in Linux.
+.. code-block:: python
+
+  header = struct.pack('<III', 
+      0x544F4F42,           # "BOOT" in hex
+      len(kernel_data),     # size
+      checksum             # checksum
+  )
+
+
+You can effectively write data from the host to the Raspberry Pi 3 through the serial device's device file in Linux by creating a Python script to communicate with the bootloader.
 
 .. code-block:: python
 
@@ -67,8 +76,9 @@ You can effectively write data from the host to rpi3 by serial device's device f
 
 
 .. hint::
+  After compiling bootloader.img, we can first use QEMU to test its functionality before running it on actual hardware.
+  You can use ``qemu-system-aarch64 -machine raspi3b -kernel your_bootloader.img -serial null -serial pty`` to create a pseudo TTY device and test your bootloader through it. 
 
-  You can use ``qemu-system-aarch64 -serial null -serial pty`` to create a pseudo TTY device and test your bootloader through it.
 
 
 Config Kernel Loading Setting
@@ -76,7 +86,7 @@ Config Kernel Loading Setting
 
 You may still want to load your actual kernel image at 0x80000, but it then overlaps with your bootloader.
 You can first specify the start address to another by **re-writing the linker script**.
-Then, add ``config.txt`` file to your SD card's boot partition to specify the loading address by ``kernel_address=``.
+Then, add ``config.txt`` file to your SD card's boot partition to specify the loading address by ``kernel_address=``. (By default, if no address is specified in config.txt, the image will be loaded at 0x80000.)
 
 To further make your bootloader less ambiguous with the actual kernel, you can add the loading image name by
 ``kernel=`` and ``arm_64bit=1``
