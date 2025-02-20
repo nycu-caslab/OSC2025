@@ -7,7 +7,7 @@ UART
 Rpi3 has 2 UARTs, mini UART and PL011 UART.
 We provide an overview about how to access them.
 
-For details, please refer to https://cs140e.sergio.bz/docs/BCM2837-ARM-Peripherals.pdf 
+For details, please refer to https://github.com/ec-enggshivam/CPPWork/blob/master/Raspberry%20Pi/BCM2837-ARM-Peripherals.pdf
 
 **********
 Background
