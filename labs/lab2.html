@@ -315,16 +315,17 @@
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-exercises">Basic Exercises</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-exercise-1-uart-bootloader-30">Basic Exercise 1 - UART Bootloader - 30%</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-exercise-1-reboot-10">Basic Exercise 1 - Reboot - 10%</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-exercise-2-uart-bootloader-30">Basic Exercise 2 - UART Bootloader - 30%</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#config-kernel-loading-setting">Config Kernel Loading Setting</a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-exercise-2-initial-ramdisk-30">Basic Exercise 2 - Initial Ramdisk - 30%</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-exercise-3-initial-ramdisk-30">Basic Exercise 3 - Initial Ramdisk - 30%</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#new-ascii-format-cpio-archive">New ASCII Format Cpio Archive</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#loading-cpio-archive">Loading Cpio Archive</a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-exercise-3-simple-allocator-10">Basic Exercise 3 - Simple Allocator - 10%</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-exercise-4-simple-allocator-10">Basic Exercise 4 - Simple Allocator - 10%</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#advanced-exercises">Advanced Exercises</a><ul class="nav section-nav flex-column">
@@ -385,8 +386,41 @@ The initialization of the remaining subsystems will be introduced at later labs.
 </section>
 <section id="basic-exercises">
 <h2>Basic Exercises<a class="headerlink" href="#basic-exercises" title="Link to this heading">#</a></h2>
-<section id="basic-exercise-1-uart-bootloader-30">
-<h3>Basic Exercise 1 - UART Bootloader - 30%<a class="headerlink" href="#basic-exercise-1-uart-bootloader-30" title="Link to this heading">#</a></h3>
+<section id="basic-exercise-1-reboot-10">
+<h3>Basic Exercise 1 - Reboot - 10%<a class="headerlink" href="#basic-exercise-1-reboot-10" title="Link to this heading">#</a></h3>
+<p>Rpi3 doesn’t originally provide an on board reset button.</p>
+<p>You can follow this example code to reset your rpi3.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>This snippet of code only works on real rpi3, not on QEMU.</p>
+</div>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#define PM_PASSWORD 0x5a000000</span>
+<span class="cp">#define PM_RSTC 0x3F10001c</span>
+<span class="cp">#define PM_WDOG 0x3F100024</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">set</span><span class="p">(</span><span class="kt">long</span><span class="w"> </span><span class="n">addr</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">value</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">volatile</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="o">*</span><span class="w"> </span><span class="n">point</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="o">*</span><span class="p">)</span><span class="n">addr</span><span class="p">;</span>
+<span class="w">    </span><span class="o">*</span><span class="n">point</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">reset</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">tick</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">                 </span><span class="c1">// reboot after watchdog timer expire</span>
+<span class="w">    </span><span class="n">set</span><span class="p">(</span><span class="n">PM_RSTC</span><span class="p">,</span><span class="w"> </span><span class="n">PM_PASSWORD</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="mh">0x20</span><span class="p">);</span><span class="w">  </span><span class="c1">// full reset</span>
+<span class="w">    </span><span class="n">set</span><span class="p">(</span><span class="n">PM_WDOG</span><span class="p">,</span><span class="w"> </span><span class="n">PM_PASSWORD</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">tick</span><span class="p">);</span><span class="w">  </span><span class="c1">// number of watchdog tick</span>
+<span class="p">}</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">cancel_reset</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">set</span><span class="p">(</span><span class="n">PM_RSTC</span><span class="p">,</span><span class="w"> </span><span class="n">PM_PASSWORD</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w">  </span><span class="c1">// full reset</span>
+<span class="w">    </span><span class="n">set</span><span class="p">(</span><span class="n">PM_WDOG</span><span class="p">,</span><span class="w"> </span><span class="n">PM_PASSWORD</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w">  </span><span class="c1">// number of watchdog tick</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="admonition-todo admonition">
+<p class="admonition-title">Todo</p>
+<p>Add a &lt;reboot&gt; command.</p>
+</div>
+</section>
+<section id="basic-exercise-2-uart-bootloader-30">
+<h3>Basic Exercise 2 - UART Bootloader - 30%<a class="headerlink" href="#basic-exercise-2-uart-bootloader-30" title="Link to this heading">#</a></h3>
 <p>In Lab 1, you might experience the process of moving the SD card between your host and rpi3 very often during debugging.
 You can eliminate this by introducing another bootloader to load the kernel under debugging.</p>
 <p>To send binary through UART, you should devise a protocol to read raw data.
@@ -422,8 +456,8 @@ arm_64bit=1
 </div>
 </section>
 </section>
-<section id="basic-exercise-2-initial-ramdisk-30">
-<h3>Basic Exercise 2 - Initial Ramdisk - 30%<a class="headerlink" href="#basic-exercise-2-initial-ramdisk-30" title="Link to this heading">#</a></h3>
+<section id="basic-exercise-3-initial-ramdisk-30">
+<h3>Basic Exercise 3 - Initial Ramdisk - 30%<a class="headerlink" href="#basic-exercise-3-initial-ramdisk-30" title="Link to this heading">#</a></h3>
 <p>After a kernel is initialized, it mounts a root filesystem and runs an init user program.
 The init program can be a script or executable binary to bring up other services or load other drivers later on.</p>
 <p>However, you haven’t implemented any filesystem and storage driver code yet, so you can’t load anything from the SD card using your kernel.
@@ -469,8 +503,8 @@ In the later labs, you will also put script files and executables inside to auto
 </div>
 </section>
 </section>
-<section id="basic-exercise-3-simple-allocator-10">
-<h3>Basic Exercise 3 - Simple Allocator - 10%<a class="headerlink" href="#basic-exercise-3-simple-allocator-10" title="Link to this heading">#</a></h3>
+<section id="basic-exercise-4-simple-allocator-10">
+<h3>Basic Exercise 4 - Simple Allocator - 10%<a class="headerlink" href="#basic-exercise-4-simple-allocator-10" title="Link to this heading">#</a></h3>
 <p>Kernel needs an allocator in the progress of subsystem initialization. However, the dynamic allocator is also a subsystem that need to be initialized. So we need a simple allocator in the early stage of booting.</p>
 <div class="admonition-todo admonition">
 <p class="admonition-title">Todo</p>
@@ -623,16 +657,17 @@ For example, it adds the initial ramdisk’s loading address in dtb if you ask t
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-exercises">Basic Exercises</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-exercise-1-uart-bootloader-30">Basic Exercise 1 - UART Bootloader - 30%</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-exercise-1-reboot-10">Basic Exercise 1 - Reboot - 10%</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-exercise-2-uart-bootloader-30">Basic Exercise 2 - UART Bootloader - 30%</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#config-kernel-loading-setting">Config Kernel Loading Setting</a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-exercise-2-initial-ramdisk-30">Basic Exercise 2 - Initial Ramdisk - 30%</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-exercise-3-initial-ramdisk-30">Basic Exercise 3 - Initial Ramdisk - 30%</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#new-ascii-format-cpio-archive">New ASCII Format Cpio Archive</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#loading-cpio-archive">Loading Cpio Archive</a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-exercise-3-simple-allocator-10">Basic Exercise 3 - Simple Allocator - 10%</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-exercise-4-simple-allocator-10">Basic Exercise 4 - Simple Allocator - 10%</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#advanced-exercises">Advanced Exercises</a><ul class="nav section-nav flex-column">

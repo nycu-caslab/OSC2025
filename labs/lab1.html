@@ -311,17 +311,13 @@
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#goals-of-this-lab">Goals of this lab</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-exercises">Basic Exercises</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-exercise-1-basic-initialization-20">Basic Exercise 1 - Basic Initialization - 20%</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-exercise-2-mini-uart-20">Basic Exercise 2 - Mini UART - 20%</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-exercise-3-simple-shell-20">Basic Exercise 3 - Simple Shell - 20%</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-exercise-4-mailbox-20">Basic Exercise 4 - Mailbox - 20%</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-exercise-1-basic-initialization-25">Basic Exercise 1 - Basic Initialization - 25%</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-exercise-2-mini-uart-25">Basic Exercise 2 - Mini UART - 25%</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-exercise-3-simple-shell-25">Basic Exercise 3 - Simple Shell - 25%</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-exercise-4-mailbox-25">Basic Exercise 4 - Mailbox - 25%</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#get-the-hardware-s-information">Get the hardware’s information</a></li>
 </ul>
 </li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#advanced-exercises">Advanced Exercises</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#advanced-exercise-1-reboot-30">Advanced Exercise 1 - Reboot - 30%</a></li>
 </ul>
 </li>
 </ul>
@@ -353,8 +349,8 @@ You need to set up mini UART, and let your host and rpi3 can communicate through
 </section>
 <section id="basic-exercises">
 <h2>Basic Exercises<a class="headerlink" href="#basic-exercises" title="Link to this heading">#</a></h2>
-<section id="basic-exercise-1-basic-initialization-20">
-<h3>Basic Exercise 1 - Basic Initialization - 20%<a class="headerlink" href="#basic-exercise-1-basic-initialization-20" title="Link to this heading">#</a></h3>
+<section id="basic-exercise-1-basic-initialization-25">
+<h3>Basic Exercise 1 - Basic Initialization - 25%<a class="headerlink" href="#basic-exercise-1-basic-initialization-25" title="Link to this heading">#</a></h3>
 <p>When a program is loaded, it requires,</p>
 <ul class="simple">
 <li><p>All it’s data is presented at correct memory address.</p></li>
@@ -373,8 +369,8 @@ Otherwise, it may lead to undefined behaviors.</p>
 <p>Initialize rpi3 after booted by bootloader.</p>
 </div>
 </section>
-<section id="basic-exercise-2-mini-uart-20">
-<h3>Basic Exercise 2 - Mini UART - 20%<a class="headerlink" href="#basic-exercise-2-mini-uart-20" title="Link to this heading">#</a></h3>
+<section id="basic-exercise-2-mini-uart-25">
+<h3>Basic Exercise 2 - Mini UART - 25%<a class="headerlink" href="#basic-exercise-2-mini-uart-25" title="Link to this heading">#</a></h3>
 <p>You’ll use UART as a bridge between rpi3 and host computer for all the labs.
 Rpi3 has 2 different UARTs, mini UART and PL011 UART.
 In this lab, you need to set up the mini UART.</p>
@@ -383,8 +379,8 @@ In this lab, you need to set up the mini UART.</p>
 <p>Follow <a class="reference internal" href="hardware/uart.html#uart"><span class="std std-ref">UART</span></a> to set up mini UART.</p>
 </div>
 </section>
-<section id="basic-exercise-3-simple-shell-20">
-<h3>Basic Exercise 3 - Simple Shell - 20%<a class="headerlink" href="#basic-exercise-3-simple-shell-20" title="Link to this heading">#</a></h3>
+<section id="basic-exercise-3-simple-shell-25">
+<h3>Basic Exercise 3 - Simple Shell - 25%<a class="headerlink" href="#basic-exercise-3-simple-shell-25" title="Link to this heading">#</a></h3>
 <p>After setting up UART, you should implement a simple shell to let rpi3 interact with the host computer.
 The shell should be able to execute the following commands.</p>
 <div class="pst-scrollable-table-container"><table class="table">
@@ -413,8 +409,8 @@ The shell should be able to execute the following commands.</p>
 </div>
 <img alt="../_images/lab1_example1.png" src="../_images/lab1_example1.png" />
 </section>
-<section id="basic-exercise-4-mailbox-20">
-<h3>Basic Exercise 4 - Mailbox - 20%<a class="headerlink" href="#basic-exercise-4-mailbox-20" title="Link to this heading">#</a></h3>
+<section id="basic-exercise-4-mailbox-25">
+<h3>Basic Exercise 4 - Mailbox - 25%<a class="headerlink" href="#basic-exercise-4-mailbox-25" title="Link to this heading">#</a></h3>
 <p>ARM CPU is able to configure peripherals such as clock rate and framebuffer by calling VideoCoreIV(GPU) routines.
 Mailboxes are the communication bridge between them.</p>
 <p>You can refer to <a class="reference internal" href="hardware/mailbox.html#mailbox"><span class="std std-ref">Mailbox</span></a> for more information.</p>
@@ -427,42 +423,6 @@ Check if you implement mailbox communication correctly by verifying the hardware
 <p>Get the hardware’s information by mailbox and print them, you should at least print <strong>board revision</strong> and <strong>ARM memory base address and size</strong>.</p>
 </div>
 </section>
-</section>
-</section>
-<section id="advanced-exercises">
-<h2>Advanced Exercises<a class="headerlink" href="#advanced-exercises" title="Link to this heading">#</a></h2>
-<section id="advanced-exercise-1-reboot-30">
-<h3>Advanced Exercise 1 - Reboot - 30%<a class="headerlink" href="#advanced-exercise-1-reboot-30" title="Link to this heading">#</a></h3>
-<p>Rpi3 doesn’t originally provide an on board reset button.</p>
-<p>You can follow this example code to reset your rpi3.</p>
-<div class="admonition important">
-<p class="admonition-title">Important</p>
-<p>This snippet of code only works on real rpi3, not on QEMU.</p>
-</div>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#define PM_PASSWORD 0x5a000000</span>
-<span class="cp">#define PM_RSTC 0x3F10001c</span>
-<span class="cp">#define PM_WDOG 0x3F100024</span>
-
-<span class="kt">void</span><span class="w"> </span><span class="nf">set</span><span class="p">(</span><span class="kt">long</span><span class="w"> </span><span class="n">addr</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">value</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="k">volatile</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="o">*</span><span class="w"> </span><span class="n">point</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="o">*</span><span class="p">)</span><span class="n">addr</span><span class="p">;</span>
-<span class="w">    </span><span class="o">*</span><span class="n">point</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="kt">void</span><span class="w"> </span><span class="nf">reset</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">tick</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">                 </span><span class="c1">// reboot after watchdog timer expire</span>
-<span class="w">    </span><span class="n">set</span><span class="p">(</span><span class="n">PM_RSTC</span><span class="p">,</span><span class="w"> </span><span class="n">PM_PASSWORD</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="mh">0x20</span><span class="p">);</span><span class="w">  </span><span class="c1">// full reset</span>
-<span class="w">    </span><span class="n">set</span><span class="p">(</span><span class="n">PM_WDOG</span><span class="p">,</span><span class="w"> </span><span class="n">PM_PASSWORD</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">tick</span><span class="p">);</span><span class="w">  </span><span class="c1">// number of watchdog tick</span>
-<span class="p">}</span>
-
-<span class="kt">void</span><span class="w"> </span><span class="nf">cancel_reset</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">set</span><span class="p">(</span><span class="n">PM_RSTC</span><span class="p">,</span><span class="w"> </span><span class="n">PM_PASSWORD</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w">  </span><span class="c1">// full reset</span>
-<span class="w">    </span><span class="n">set</span><span class="p">(</span><span class="n">PM_WDOG</span><span class="p">,</span><span class="w"> </span><span class="n">PM_PASSWORD</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w">  </span><span class="c1">// number of watchdog tick</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-<div class="admonition-todo admonition">
-<p class="admonition-title">Todo</p>
-<p>Add a &lt;reboot&gt; command.</p>
-</div>
 </section>
 </section>
 </section>
@@ -516,17 +476,13 @@ Check if you implement mailbox communication correctly by verifying the hardware
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#goals-of-this-lab">Goals of this lab</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-exercises">Basic Exercises</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-exercise-1-basic-initialization-20">Basic Exercise 1 - Basic Initialization - 20%</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-exercise-2-mini-uart-20">Basic Exercise 2 - Mini UART - 20%</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-exercise-3-simple-shell-20">Basic Exercise 3 - Simple Shell - 20%</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-exercise-4-mailbox-20">Basic Exercise 4 - Mailbox - 20%</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-exercise-1-basic-initialization-25">Basic Exercise 1 - Basic Initialization - 25%</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-exercise-2-mini-uart-25">Basic Exercise 2 - Mini UART - 25%</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-exercise-3-simple-shell-25">Basic Exercise 3 - Simple Shell - 25%</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-exercise-4-mailbox-25">Basic Exercise 4 - Mailbox - 25%</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#get-the-hardware-s-information">Get the hardware’s information</a></li>
 </ul>
 </li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#advanced-exercises">Advanced Exercises</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#advanced-exercise-1-reboot-30">Advanced Exercise 1 - Reboot - 30%</a></li>
 </ul>
 </li>
 </ul>
