@@ -4,33 +4,48 @@ Instructor
 ***********
 **Tsung Tai Yeh**
 
-* Email: ttyeh [at] cs.nycu.edu.tw
-* Location: EC707
+* ttyeh [at] cs.nycu.edu.tw
+* Location: EC516
 
 Teaching assistants
 *******************
 
-**Cheng-Hsi Liu**
+**Yu-Yen Huang**
 
-* brianliu.cs11 [at] nycu.edu.tw
-* Location: EC619
+* annyen1 [at] gmail.com
+* Discord: annyen.
 
-**Jeng-Bang Tsai**
+**Cheng-Han Tsai**
 
-* tsai.cs12 [at] nycu.edu.tw
-* Location: EC619
+* charlestsai1729.cs10 [at] nycu.edu.tw
+* Discord: charlestsai
 
-**Kai-Chieh Hsu**
+**Pin-Yun Huang**
 
-* kaijhsu.cs12 [at] nycu.edu.tw
-* Location: EC619
+* mshuangp585.cs13 [at] nycu.edu.tw
+* Discord: dhshd.
 
-**Wei-Hsun Huang**
+**Ching Chen**
 
-* vic900511.cs12 [at] nycu.edu.tw
-* Location: EC619
+* cchen.cs13 [at] nycu.edu.yw
+* Discord: _o0o0o0o
 
-**Chen-Pin Yang**
+**Wei-Cheng Wu**
 
-* ycpin.cs12 [at] nycu.edu.tw
-* Location: EC619
+* wcwu.cs13 [at] nycu.edu.tw
+* Discord: wlmwu
+
+**Chih-Yi Lin**
+
+* lzydaphnelin [at] gmail.com
+* Discord: .lzydaphne
+
+**Wei-Hsiang Lu**
+
+* revol.cs10 [at] nycu.edu.tw
+* Discord: revol123
+
+**Yu-Hsin Wang**
+
+* hsin.cs13 [at] nycu.edu.tw
+* Discord: yuhsin6344

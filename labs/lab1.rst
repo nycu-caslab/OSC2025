@@ -22,7 +22,7 @@ Goals of this lab
 Basic Exercises
 ###############
 
-Basic Exercise 1 - Basic Initialization - 20%
+Basic Exercise 1 - Basic Initialization - 25%
 =============================================
 
 When a program is loaded, it requires,
@@ -44,7 +44,7 @@ Otherwise, it may lead to undefined behaviors.
 
     Initialize rpi3 after booted by bootloader.
 
-Basic Exercise 2 - Mini UART - 20%
+Basic Exercise 2 - Mini UART - 25%
 ==================================
 
 You'll use UART as a bridge between rpi3 and host computer for all the labs.
@@ -55,7 +55,7 @@ In this lab, you need to set up the mini UART.
 
     Follow :ref:`uart` to set up mini UART.
 
-Basic Exercise 3 - Simple Shell - 20%
+Basic Exercise 3 - Simple Shell - 25%
 =====================================
 
 After setting up UART, you should implement a simple shell to let rpi3 interact with the host computer.
@@ -77,7 +77,7 @@ hello    print Hello World!
 
 .. image:: images/lab1_example1.png
 
-Basic Exercise 4 - Mailbox - 20%
+Basic Exercise 4 - Mailbox - 25%
 ================================
 
 ARM CPU is able to configure peripherals such as clock rate and framebuffer by calling VideoCoreIV(GPU) routines.
@@ -95,43 +95,4 @@ Check if you implement mailbox communication correctly by verifying the hardware
 
     Get the hardware's information by mailbox and print them, you should at least print **board revision** and **ARM memory base address and size**.
 
-##################
-Advanced Exercises
-##################
 
-Advanced Exercise 1 - Reboot - 30%
-==================================
-
-Rpi3 doesn't originally provide an on board reset button.
-
-You can follow this example code to reset your rpi3.
-
-.. important::
-
-  This snippet of code only works on real rpi3, not on QEMU.
-
-.. code-block:: c
-
-  #define PM_PASSWORD 0x5a000000
-  #define PM_RSTC 0x3F10001c
-  #define PM_WDOG 0x3F100024
-
-  void set(long addr, unsigned int value) {
-      volatile unsigned int* point = (unsigned int*)addr;
-      *point = value;
-  }
-  
-  void reset(int tick) {                 // reboot after watchdog timer expire
-      set(PM_RSTC, PM_PASSWORD | 0x20);  // full reset
-      set(PM_WDOG, PM_PASSWORD | tick);  // number of watchdog tick
-  }
-  
-  void cancel_reset() {
-      set(PM_RSTC, PM_PASSWORD | 0);  // full reset
-      set(PM_WDOG, PM_PASSWORD | 0);  // number of watchdog tick
-  }
-  
-
-.. admonition:: Todo
-
-   Add a <reboot> command.
