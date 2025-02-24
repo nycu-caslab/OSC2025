@@ -175,7 +175,31 @@ Then, use the following commands to archive it.
 
 `Freebsd's man page <https://www.freebsd.org/cgi/man.cgi?query=cpio&sektion=5>`_ has a detailed definition of how 
 New ASCII Format Cpio Archive is structured.
-You should read it and implement a parser to read files in the archive.
+You should read it and implement a parser to read files in the archive. The New ASCII Format has its header format defined as follows:
+
+.. code-block:: sh
+
+  struct cpio_newc_header {
+     char    c_magic[6];
+     char    c_ino[8];
+     char    c_mode[8];
+     char    c_uid[8];
+     char    c_gid[8];
+     char    c_nlink[8];
+     char    c_mtime[8];
+     char    c_filesize[8];
+     char    c_devmajor[8];
+     char    c_devminor[8];
+     char    c_rdevmajor[8];
+     char    c_rdevminor[8];
+     char    c_namesize[8];
+     char    c_check[8];
+   };
+
+
+
+
+Please note that a NUL byte is appended to the pathname to ensure that the combined size of the fixed header and the pathname is a multiple of 4. Similarly, file data is also padded to align with a 4-byte boundary.
 
 Loading Cpio Archive
 ---------------------
