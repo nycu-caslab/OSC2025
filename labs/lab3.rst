@@ -118,14 +118,12 @@ Interrupt Controllers
 
 Rpi3 has two levels of interrupt controllers.
 The first level controller routes interrupt to each CPU core, so each CPU core can have its timer interrupt and send interrupt processor Interrupts between each other.
-The details could be found in
-
-https://github.com/Tekki/raspberrypi-documentation/blob/master/hardware/raspberrypi/bcm2836/QA7_rev3.4.pdf
 
 The second level controller routes interrupt from peripherals such as UART and system timer, they are aggregated and sent to the first level interrupt controller as GPU IRQ.
-The details could be found in
 
-https://cs140e.sergio.bz/docs/BCM2837-ARM-Peripherals.pdf (page 109)
+The details could be found in:
+
+https://www.raspberrypi.com/documentation/computers/processors.html#bcm2837
 
 
 Critical Sections
