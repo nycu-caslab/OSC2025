@@ -298,7 +298,7 @@ Devicetree source describes device tree in human-readable form.
 It's then compiled into flattened devicetree so the parsing can be simpler and faster in slow embedded systems.
 
 You can read rpi3's dts from raspberry pi's
-`linux repository <https://github.com/raspberrypi/linux/blob/rpi-5.10.y/arch/arm64/boot/dts/broadcom/bcm2710-rpi-3-b-plus.dts>`_
+`linux repository <https://github.com/raspberrypi/linux/blob/rpi-6.6.y/arch/arm/boot/dts/broadcom/bcm2710-rpi-3-b-plus.dts>`_.
 
 You can get rpi3's dtb by either compiling it manually or downloading the `off-the-shelf one <https://github.com/raspberrypi/firmware/raw/master/boot/bcm2710-rpi-3-b-plus.dtb>`_.
 
@@ -309,7 +309,7 @@ In this advanced part, you should implement a parser to parse the flattened devi
 Besides, your kernel should provide an interface that takes a callback function argument.
 So a driver code can walk the entire devicetree to query each device node and match itself by checking the node's name and properties.
 
-You can get the latest specification from the `devicetree's official website <https://www.devicetree.org/specifications/>`_.
+You can get the latest specification from the `devicetree's official website <https://devicetree-specification.readthedocs.io/en/stable/flattened-format.html>`_.
 Then follow the order Chapter 5, 2, 3 and read rpi3's dts to implement your parser.
 
 Dtb Loading
