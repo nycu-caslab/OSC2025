@@ -196,9 +196,6 @@ You should read it and implement a parser to read files in the archive. The New 
      char    c_check[8];
    };
 
-
-
-
 Please note that a NUL byte is appended to the pathname to ensure that the combined size of the fixed header and the pathname is a multiple of 4. Similarly, file data is also padded to align with a 4-byte boundary.
 
 Loading Cpio Archive
@@ -253,7 +250,7 @@ The folloing code is a breif example:
       char* string = simple_alloc(8);
     }
 
-In this simple allocator, the heap is a pre-allocated memory pool used for dynamic memory requests. 
+In this simple allocator, the heap is a pre-allocated memory pool used for dynamic memory requests.
 We can request memory dynamically from the pool by passing a size argument. The allocator works by linearly allocating memory and ensuring that the requested allocation does not exceed the available space in the heap, and the function returns a pointer to the allocated memory.
 
 ##################
