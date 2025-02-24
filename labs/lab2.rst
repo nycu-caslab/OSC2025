@@ -267,7 +267,7 @@ Hence, a bootloader should be able to relocate itself to another address, so it 
 
 .. admonition:: Todo
 
-    Add self-relocation to your UART bootloader, so you don't need ``kernel_address=`` option in ``config.txt``. Please ensure the bootloader's loading address overlaps with the kernel image.
+    Add self-relocation to your UART bootloader, so you don't need ``kernel_address=`` option in ``config.txt``. Please ensure the bootloader's initial loading address overlaps with the kernel image's loading address, then relocate the bootloader to a different memory address.
 
 .. hint::
 
