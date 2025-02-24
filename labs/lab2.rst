@@ -310,22 +310,52 @@ Besides, your kernel should provide an interface that takes a callback function 
 So a driver code can walk the entire devicetree to query each device node and match itself by checking the node's name and properties.
 
 You can get the latest specification from the `devicetree's official website <https://devicetree-specification.readthedocs.io/en/stable/flattened-format.html>`_.
-Then follow the order Chapter 5, 2, 3 and read rpi3's dts to implement your parser.
+Please refer to Chapters 5, 2, and 3 in that order for more implementation details on building your parser.
 
-Dtb Loading
------------
+The structure of the Devicetree .dtb file is illustrated below (Fig. 5.1):
 
-A bootloader loads a dtb into memory and passes the loading address specified at register ``x0`` to the kernel.
-Besides, it modifies the original dtb content to match the actual machine setting.
-For example, it adds the initial ramdisk's loading address in dtb if you ask the bootloader to load an initial ramdisk.
+.. image:: images/lab2_dtb_layout.png
 
-**QEMU**
+The structure is further divided into the FTD header, memory reservation block, structure block, and strings block. 
+Here, we primarily utilize the structure block and strings block to obtain device information, which can be accessed through the header.
 
-Add the argument ``-dtb bcm2710-rpi-3-b-plus.dtb`` to QEMU.
+The Flattened Devicetree Header Fields are as follows (`5.2. Header <https://devicetree-specification.readthedocs.io/en/stable/flattened-format.html#header>`_.):
 
-**Rpi3**
+.. code-block:: c
 
-Move ``bcm2710-rpi-3-b-plus.dtb`` into SD card.
+  struct fdt_header {
+      uint32_t magic;
+      uint32_t totalsize;
+      uint32_t off_dt_struct;
+      uint32_t off_dt_strings;
+      uint32_t off_mem_rsvmap;
+      uint32_t version;
+      uint32_t last_comp_version;
+      uint32_t boot_cpuid_phys;
+      uint32_t size_dt_strings;
+      uint32_t size_dt_struct;
+  };
+
+Please note that all the header fields are 32-bit integers, stored in big-endian format.
+
+
+The stucture block can be further devided into several tokens, each containing its specific data. 
+Below is a simple example of the layout with token descriptions. 
+For more implementation details, please refer to (`5.4. Structure Block <https://devicetree-specification.readthedocs.io/en/stable/flattened-format.html#structure-block>`_.)
+
+.. code-block:: c
+
+  / {
+   soc { // FDT_BEGIN_NODE "soc"
+    compatible = "simple-bus"; // FDT_PROP
+    interrupt-parent = <&intc>; // FDT_PROP
+    intc: interrupt-controller@f8f01000 { // FDT_BEGIN_NODE "interrupt-controller@f8f01000"
+    compatible = "arm,cortex-a9-gic"; // FDT_PROP
+    reg = <0xF8F01000 0x1000>, // FDT_PROP
+    <0xF8F00100 0x100>;
+    }; // FDT_END_NODE
+   }; // FDT_END_NODE
+  }; // FDT_END
 
 .. admonition:: Todo
 
@@ -345,9 +375,28 @@ The folloing code is a breif example of the API. You can design it in your own w
 
 .. admonition:: Todo
 
-   Use the API to get the address of initramfs instead of hardcoding it.
+   Use the API to get the address of initramfs instead of hardcoding it. The initramfs address is located in the /chosen/linux,initrd-start node.
+
+
+Dtb Loading
+-----------
+
+A bootloader loads a dtb into memory and passes the loading address specified at register ``x0`` to the kernel.
+Besides, it modifies the original dtb content to match the actual machine setting.
+For example, it adds the initial ramdisk's loading address in dtb if you ask the bootloader to load an initial ramdisk.
+
+**QEMU**
+
+Add the argument ``-dtb bcm2710-rpi-3-b-plus.dtb`` to QEMU.
+
+**Rpi3**
+
+Move ``bcm2710-rpi-3-b-plus.dtb`` into SD card.
 
 .. admonition:: Todo
 
    Modify your bootloader for passing the device tree loading address.
 
+.. hint::
+
+   You may use assembly to store and retrieve the x0 register for the initramfs address.
