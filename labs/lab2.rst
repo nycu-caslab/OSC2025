@@ -269,6 +269,9 @@ Hence, a bootloader should be able to relocate itself to another address, so it 
 
     Add self-relocation to your UART bootloader, so you don't need ``kernel_address=`` option in ``config.txt``
 
+.. hint::
+
+   You may implement the relocation through assembly.
 
 Advanced Exercise 2 - Devicetree - 30%
 ======================================
