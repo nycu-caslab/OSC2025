@@ -438,21 +438,29 @@ The initialization of the remaining subsystems will be introduced at later labs.
 <p>In Lab 1, you might experience the process of moving the SD card between your host and rpi3 very often during debugging.
 You can eliminate this by introducing another bootloader to load the kernel under debugging.</p>
 <p>To send binary through UART, you should devise a protocol to read raw data.
-It rarely drops data during transmission, so you can keep the protocol simple.</p>
-<p>You can effectively write data from the host to rpi3 by serial device’s device file in Linux.</p>
+It rarely drops data during transmission, so you can keep the protocol simple. Here is a simple example of what a protocol might look like.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">header</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="s1">&#39;&lt;III&#39;</span><span class="p">,</span>
+    <span class="mh">0x544F4F42</span><span class="p">,</span>           <span class="c1"># &quot;BOOT&quot; in hex</span>
+    <span class="nb">len</span><span class="p">(</span><span class="n">kernel_data</span><span class="p">),</span>     <span class="c1"># size</span>
+    <span class="n">checksum</span>             <span class="c1"># checksum</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>You can effectively write data from the host to the Raspberry Pi 3 through the serial device’s device file in Linux by creating a Python script to communicate with the bootloader.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;/dev/ttyUSB0&#39;</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">,</span> <span class="n">buffering</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">as</span> <span class="n">tty</span><span class="p">:</span>
   <span class="n">tty</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="admonition hint">
 <p class="admonition-title">Hint</p>
-<p>You can use <code class="docutils literal notranslate"><span class="pre">qemu-system-aarch64</span> <span class="pre">-serial</span> <span class="pre">null</span> <span class="pre">-serial</span> <span class="pre">pty</span></code> to create a pseudo TTY device and test your bootloader through it.</p>
+<p>After compiling bootloader.img, we can first use QEMU to test its functionality before running it on actual hardware.
+You can use <code class="docutils literal notranslate"><span class="pre">qemu-system-aarch64</span> <span class="pre">-machine</span> <span class="pre">raspi3b</span> <span class="pre">-kernel</span> <span class="pre">your_bootloader.img</span> <span class="pre">-serial</span> <span class="pre">null</span> <span class="pre">-serial</span> <span class="pre">pty</span></code> to create a pseudo TTY device and test your bootloader through it.</p>
 </div>
 <section id="config-kernel-loading-setting">
 <h4>Config Kernel Loading Setting<a class="headerlink" href="#config-kernel-loading-setting" title="Link to this heading">#</a></h4>
 <p>You may still want to load your actual kernel image at 0x80000, but it then overlaps with your bootloader.
 You can first specify the start address to another by <strong>re-writing the linker script</strong>.
-Then, add <code class="docutils literal notranslate"><span class="pre">config.txt</span></code> file to your SD card’s boot partition to specify the loading address by <code class="docutils literal notranslate"><span class="pre">kernel_address=</span></code>.</p>
+Then, add <code class="docutils literal notranslate"><span class="pre">config.txt</span></code> file to your SD card’s boot partition to specify the loading address by <code class="docutils literal notranslate"><span class="pre">kernel_address=</span></code>. (By default, if no address is specified in config.txt, the image will be loaded at 0x80000.)</p>
 <p>To further make your bootloader less ambiguous with the actual kernel, you can add the loading image name by
 <code class="docutils literal notranslate"><span class="pre">kernel=</span></code> and <code class="docutils literal notranslate"><span class="pre">arm_64bit=1</span></code></p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>kernel_address=0x60000
@@ -492,7 +500,26 @@ find<span class="w"> </span>.<span class="w"> </span><span class="p">|</span><sp
 </div>
 <p><a class="reference external" href="https://www.freebsd.org/cgi/man.cgi?query=cpio&amp;sektion=5">Freebsd’s man page</a> has a detailed definition of how
 New ASCII Format Cpio Archive is structured.
-You should read it and implement a parser to read files in the archive.</p>
+You should read it and implement a parser to read files in the archive. The New ASCII Format has its header format defined as follows:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>struct<span class="w"> </span>cpio_newc_header<span class="w"> </span><span class="o">{</span>
+<span class="w">   </span>char<span class="w">    </span>c_magic<span class="o">[</span><span class="m">6</span><span class="o">]</span><span class="p">;</span>
+<span class="w">   </span>char<span class="w">    </span>c_ino<span class="o">[</span><span class="m">8</span><span class="o">]</span><span class="p">;</span>
+<span class="w">   </span>char<span class="w">    </span>c_mode<span class="o">[</span><span class="m">8</span><span class="o">]</span><span class="p">;</span>
+<span class="w">   </span>char<span class="w">    </span>c_uid<span class="o">[</span><span class="m">8</span><span class="o">]</span><span class="p">;</span>
+<span class="w">   </span>char<span class="w">    </span>c_gid<span class="o">[</span><span class="m">8</span><span class="o">]</span><span class="p">;</span>
+<span class="w">   </span>char<span class="w">    </span>c_nlink<span class="o">[</span><span class="m">8</span><span class="o">]</span><span class="p">;</span>
+<span class="w">   </span>char<span class="w">    </span>c_mtime<span class="o">[</span><span class="m">8</span><span class="o">]</span><span class="p">;</span>
+<span class="w">   </span>char<span class="w">    </span>c_filesize<span class="o">[</span><span class="m">8</span><span class="o">]</span><span class="p">;</span>
+<span class="w">   </span>char<span class="w">    </span>c_devmajor<span class="o">[</span><span class="m">8</span><span class="o">]</span><span class="p">;</span>
+<span class="w">   </span>char<span class="w">    </span>c_devminor<span class="o">[</span><span class="m">8</span><span class="o">]</span><span class="p">;</span>
+<span class="w">   </span>char<span class="w">    </span>c_rdevmajor<span class="o">[</span><span class="m">8</span><span class="o">]</span><span class="p">;</span>
+<span class="w">   </span>char<span class="w">    </span>c_rdevminor<span class="o">[</span><span class="m">8</span><span class="o">]</span><span class="p">;</span>
+<span class="w">   </span>char<span class="w">    </span>c_namesize<span class="o">[</span><span class="m">8</span><span class="o">]</span><span class="p">;</span>
+<span class="w">   </span>char<span class="w">    </span>c_check<span class="o">[</span><span class="m">8</span><span class="o">]</span><span class="p">;</span>
+<span class="w"> </span><span class="o">}</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Please note that a NUL byte is appended to the pathname to ensure that the combined size of the fixed header and the pathname is a multiple of 4. Similarly, file data is also padded to align with a 4-byte boundary.</p>
 </section>
 <section id="loading-cpio-archive">
 <h4>Loading Cpio Archive<a class="headerlink" href="#loading-cpio-archive" title="Link to this heading">#</a></h4>
@@ -538,6 +565,8 @@ In the later labs, you will also put script files and executables inside to auto
 <span class="p">}</span>
 </pre></div>
 </div>
+<p>In this simple allocator, the heap is a pre-allocated memory pool used for dynamic memory requests.
+We can request memory dynamically from the pool by passing a size argument. The allocator works by linearly allocating memory and ensuring that the requested allocation does not exceed the available space in the heap, and the function returns a pointer to the allocated memory.</p>
 </section>
 </section>
 <section id="advanced-exercises">
@@ -549,7 +578,11 @@ However, not all previous stage bootloaders can specify the loading address.
 Hence, a bootloader should be able to relocate itself to another address, so it can load a kernel to an address overlapping with its loading address.</p>
 <div class="admonition-todo admonition">
 <p class="admonition-title">Todo</p>
-<p>Add self-relocation to your UART bootloader, so you don’t need <code class="docutils literal notranslate"><span class="pre">kernel_address=</span></code> option in <code class="docutils literal notranslate"><span class="pre">config.txt</span></code></p>
+<p>Add self-relocation to your UART bootloader, so you don’t need <code class="docutils literal notranslate"><span class="pre">kernel_address=</span></code> option in <code class="docutils literal notranslate"><span class="pre">config.txt</span></code>. Please ensure the bootloader’s initial loading address overlaps with the kernel image’s loading address, then relocate the bootloader to a different memory address.</p>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>You may implement the relocation through assembly.</p>
 </div>
 </section>
 <section id="advanced-exercise-2-devicetree-30">
@@ -571,7 +604,7 @@ The file is called <strong>deivcetree</strong>.</p>
 Devicetree source describes device tree in human-readable form.
 It’s then compiled into flattened devicetree so the parsing can be simpler and faster in slow embedded systems.</p>
 <p>You can read rpi3’s dts from raspberry pi’s
-<a class="reference external" href="https://github.com/raspberrypi/linux/blob/rpi-5.10.y/arch/arm64/boot/dts/broadcom/bcm2710-rpi-3-b-plus.dts">linux repository</a></p>
+<a class="reference external" href="https://github.com/raspberrypi/linux/blob/rpi-6.6.y/arch/arm/boot/dts/broadcom/bcm2710-rpi-3-b-plus.dts">linux repository</a>.</p>
 <p>You can get rpi3’s dtb by either compiling it manually or downloading the <a class="reference external" href="https://github.com/raspberrypi/firmware/raw/master/boot/bcm2710-rpi-3-b-plus.dtb">off-the-shelf one</a>.</p>
 </section>
 <section id="parsing">
@@ -579,18 +612,44 @@ It’s then compiled into flattened devicetree so the parsing can be simpler and
 <p>In this advanced part, you should implement a parser to parse the flattened devicetree.
 Besides, your kernel should provide an interface that takes a callback function argument.
 So a driver code can walk the entire devicetree to query each device node and match itself by checking the node’s name and properties.</p>
-<p>You can get the latest specification from the <a class="reference external" href="https://www.devicetree.org/specifications/">devicetree’s official website</a>.
-Then follow the order Chapter 5, 2, 3 and read rpi3’s dts to implement your parser.</p>
-</section>
-<section id="dtb-loading">
-<h4>Dtb Loading<a class="headerlink" href="#dtb-loading" title="Link to this heading">#</a></h4>
-<p>A bootloader loads a dtb into memory and passes the loading address specified at register <code class="docutils literal notranslate"><span class="pre">x0</span></code> to the kernel.
-Besides, it modifies the original dtb content to match the actual machine setting.
-For example, it adds the initial ramdisk’s loading address in dtb if you ask the bootloader to load an initial ramdisk.</p>
-<p><strong>QEMU</strong></p>
-<p>Add the argument <code class="docutils literal notranslate"><span class="pre">-dtb</span> <span class="pre">bcm2710-rpi-3-b-plus.dtb</span></code> to QEMU.</p>
-<p><strong>Rpi3</strong></p>
-<p>Move <code class="docutils literal notranslate"><span class="pre">bcm2710-rpi-3-b-plus.dtb</span></code> into SD card.</p>
+<p>You can get the latest specification from the <a class="reference external" href="https://devicetree-specification.readthedocs.io/en/stable/flattened-format.html">devicetree’s official website</a>.
+Please refer to Chapters 5, 2, and 3 in that order for more implementation details on building your parser.</p>
+<p>The structure of the Devicetree .dtb file is illustrated below (Fig. 5.1):</p>
+<img alt="../_images/lab2_dtb_layout.png" src="../_images/lab2_dtb_layout.png" />
+<p>The structure is further divided into the FTD header, memory reservation block, structure block, and strings block.
+Here, we primarily utilize the structure block and strings block to obtain device information, which can be accessed through the header.</p>
+<p>The Flattened Devicetree Header Fields are as follows (<a class="reference external" href="https://devicetree-specification.readthedocs.io/en/stable/flattened-format.html#header">5.2. Header</a>.):</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">fdt_header</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">magic</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">totalsize</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">off_dt_struct</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">off_dt_strings</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">off_mem_rsvmap</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">version</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">last_comp_version</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">boot_cpuid_phys</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">size_dt_strings</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">size_dt_struct</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>Please note that all the header fields are 32-bit integers, stored in big-endian format.</p>
+<p>The stucture block can be further devided into several tokens, each containing its specific data.
+Below is a simple example of the layout with token descriptions.
+For more implementation details, please refer to (<a class="reference external" href="https://devicetree-specification.readthedocs.io/en/stable/flattened-format.html#structure-block">5.4. Structure Block</a>.)</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="w"> </span><span class="p">{</span>
+<span class="w"> </span><span class="n">soc</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// FDT_BEGIN_NODE &quot;soc&quot;</span>
+<span class="w">  </span><span class="n">compatible</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;simple-bus&quot;</span><span class="p">;</span><span class="w"> </span><span class="c1">// FDT_PROP</span>
+<span class="w">  </span><span class="n">interrupt</span><span class="o">-</span><span class="n">parent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;&amp;</span><span class="n">intc</span><span class="o">&gt;</span><span class="p">;</span><span class="w"> </span><span class="c1">// FDT_PROP</span>
+<span class="w">  </span><span class="nl">intc</span><span class="p">:</span><span class="w"> </span><span class="n">interrupt</span><span class="o">-</span><span class="n">controller</span><span class="err">@</span><span class="n">f8f01000</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// FDT_BEGIN_NODE &quot;interrupt-controller@f8f01000&quot;</span>
+<span class="w">  </span><span class="n">compatible</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;arm,cortex-a9-gic&quot;</span><span class="p">;</span><span class="w"> </span><span class="c1">// FDT_PROP</span>
+<span class="w">  </span><span class="n">reg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;</span><span class="mh">0xF8F01000</span><span class="w"> </span><span class="mh">0x1000</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="c1">// FDT_PROP</span>
+<span class="w">  </span><span class="o">&lt;</span><span class="mh">0xF8F00100</span><span class="w"> </span><span class="mh">0x100</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="w">  </span><span class="p">};</span><span class="w"> </span><span class="c1">// FDT_END_NODE</span>
+<span class="w"> </span><span class="p">};</span><span class="w"> </span><span class="c1">// FDT_END_NODE</span>
+<span class="p">};</span><span class="w"> </span><span class="c1">// FDT_END</span>
+</pre></div>
+</div>
 <div class="admonition-todo admonition">
 <p class="admonition-title">Todo</p>
 <p>Implement a parser that can iterate the device tree. Also, provide an API that takes a callback function, so the driver code can access the content of the device node during device tree iteration.</p>
@@ -607,11 +666,25 @@ For example, it adds the initial ramdisk’s loading address in dtb if you ask t
 </div>
 <div class="admonition-todo admonition">
 <p class="admonition-title">Todo</p>
-<p>Use the API to get the address of initramfs instead of hardcoding it.</p>
+<p>Use the API to get the address of initramfs instead of hardcoding it. The initramfs address is located in the /chosen/linux,initrd-start node.</p>
 </div>
+</section>
+<section id="dtb-loading">
+<h4>Dtb Loading<a class="headerlink" href="#dtb-loading" title="Link to this heading">#</a></h4>
+<p>A bootloader loads a dtb into memory and passes the loading address specified at register <code class="docutils literal notranslate"><span class="pre">x0</span></code> to the kernel.
+Besides, it modifies the original dtb content to match the actual machine setting.
+For example, it adds the initial ramdisk’s loading address in dtb if you ask the bootloader to load an initial ramdisk.</p>
+<p><strong>QEMU</strong></p>
+<p>Add the argument <code class="docutils literal notranslate"><span class="pre">-dtb</span> <span class="pre">bcm2710-rpi-3-b-plus.dtb</span></code> to QEMU.</p>
+<p><strong>Rpi3</strong></p>
+<p>Move <code class="docutils literal notranslate"><span class="pre">bcm2710-rpi-3-b-plus.dtb</span></code> into SD card.</p>
 <div class="admonition-todo admonition">
 <p class="admonition-title">Todo</p>
 <p>Modify your bootloader for passing the device tree loading address.</p>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>You may use assembly to store and retrieve the x0 register for the initramfs address.</p>
 </div>
 </section>
 </section>

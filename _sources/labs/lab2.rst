@@ -92,10 +92,19 @@ Basic Exercise 2 - UART Bootloader - 30%
 In Lab 1, you might experience the process of moving the SD card between your host and rpi3 very often during debugging.
 You can eliminate this by introducing another bootloader to load the kernel under debugging.
 
-To send binary through UART, you should devise a protocol to read raw data.
-It rarely drops data during transmission, so you can keep the protocol simple.
+To send binary through UART, you should devise a protocol to read raw data. 
+It rarely drops data during transmission, so you can keep the protocol simple. Here is a simple example of what a protocol might look like.
 
-You can effectively write data from the host to rpi3 by serial device's device file in Linux.
+.. code-block:: python
+
+  header = struct.pack('<III', 
+      0x544F4F42,           # "BOOT" in hex
+      len(kernel_data),     # size
+      checksum             # checksum
+  )
+
+
+You can effectively write data from the host to the Raspberry Pi 3 through the serial device's device file in Linux by creating a Python script to communicate with the bootloader.
 
 .. code-block:: python
 
@@ -104,8 +113,9 @@ You can effectively write data from the host to rpi3 by serial device's device f
 
 
 .. hint::
+  After compiling bootloader.img, we can first use QEMU to test its functionality before running it on actual hardware.
+  You can use ``qemu-system-aarch64 -machine raspi3b -kernel your_bootloader.img -serial null -serial pty`` to create a pseudo TTY device and test your bootloader through it. 
 
-  You can use ``qemu-system-aarch64 -serial null -serial pty`` to create a pseudo TTY device and test your bootloader through it.
 
 
 Config Kernel Loading Setting
@@ -113,7 +123,7 @@ Config Kernel Loading Setting
 
 You may still want to load your actual kernel image at 0x80000, but it then overlaps with your bootloader.
 You can first specify the start address to another by **re-writing the linker script**.
-Then, add ``config.txt`` file to your SD card's boot partition to specify the loading address by ``kernel_address=``.
+Then, add ``config.txt`` file to your SD card's boot partition to specify the loading address by ``kernel_address=``. (By default, if no address is specified in config.txt, the image will be loaded at 0x80000.)
 
 To further make your bootloader less ambiguous with the actual kernel, you can add the loading image name by
 ``kernel=`` and ``arm_64bit=1``
@@ -165,7 +175,28 @@ Then, use the following commands to archive it.
 
 `Freebsd's man page <https://www.freebsd.org/cgi/man.cgi?query=cpio&sektion=5>`_ has a detailed definition of how 
 New ASCII Format Cpio Archive is structured.
-You should read it and implement a parser to read files in the archive.
+You should read it and implement a parser to read files in the archive. The New ASCII Format has its header format defined as follows:
+
+.. code-block:: sh
+
+  struct cpio_newc_header {
+     char    c_magic[6];
+     char    c_ino[8];
+     char    c_mode[8];
+     char    c_uid[8];
+     char    c_gid[8];
+     char    c_nlink[8];
+     char    c_mtime[8];
+     char    c_filesize[8];
+     char    c_devmajor[8];
+     char    c_devminor[8];
+     char    c_rdevmajor[8];
+     char    c_rdevminor[8];
+     char    c_namesize[8];
+     char    c_check[8];
+   };
+
+Please note that a NUL byte is appended to the pathname to ensure that the combined size of the fixed header and the pathname is a multiple of 4. Similarly, file data is also padded to align with a 4-byte boundary.
 
 Loading Cpio Archive
 ---------------------
@@ -219,6 +250,9 @@ The folloing code is a breif example:
       char* string = simple_alloc(8);
     }
 
+In this simple allocator, the heap is a pre-allocated memory pool used for dynamic memory requests.
+We can request memory dynamically from the pool by passing a size argument. The allocator works by linearly allocating memory and ensuring that the requested allocation does not exceed the available space in the heap, and the function returns a pointer to the allocated memory.
+
 ##################
 Advanced Exercises
 ##################
@@ -233,8 +267,11 @@ Hence, a bootloader should be able to relocate itself to another address, so it 
 
 .. admonition:: Todo
 
-    Add self-relocation to your UART bootloader, so you don't need ``kernel_address=`` option in ``config.txt``
+    Add self-relocation to your UART bootloader, so you don't need ``kernel_address=`` option in ``config.txt``. Please ensure the bootloader's initial loading address overlaps with the kernel image's loading address, then relocate the bootloader to a different memory address.
 
+.. hint::
+
+   You may implement the relocation through assembly.
 
 Advanced Exercise 2 - Devicetree - 30%
 ======================================
@@ -261,7 +298,7 @@ Devicetree source describes device tree in human-readable form.
 It's then compiled into flattened devicetree so the parsing can be simpler and faster in slow embedded systems.
 
 You can read rpi3's dts from raspberry pi's
-`linux repository <https://github.com/raspberrypi/linux/blob/rpi-5.10.y/arch/arm64/boot/dts/broadcom/bcm2710-rpi-3-b-plus.dts>`_
+`linux repository <https://github.com/raspberrypi/linux/blob/rpi-6.6.y/arch/arm/boot/dts/broadcom/bcm2710-rpi-3-b-plus.dts>`_.
 
 You can get rpi3's dtb by either compiling it manually or downloading the `off-the-shelf one <https://github.com/raspberrypi/firmware/raw/master/boot/bcm2710-rpi-3-b-plus.dtb>`_.
 
@@ -272,23 +309,53 @@ In this advanced part, you should implement a parser to parse the flattened devi
 Besides, your kernel should provide an interface that takes a callback function argument.
 So a driver code can walk the entire devicetree to query each device node and match itself by checking the node's name and properties.
 
-You can get the latest specification from the `devicetree's official website <https://www.devicetree.org/specifications/>`_.
-Then follow the order Chapter 5, 2, 3 and read rpi3's dts to implement your parser.
+You can get the latest specification from the `devicetree's official website <https://devicetree-specification.readthedocs.io/en/stable/flattened-format.html>`_.
+Please refer to Chapters 5, 2, and 3 in that order for more implementation details on building your parser.
 
-Dtb Loading
------------
+The structure of the Devicetree .dtb file is illustrated below (Fig. 5.1):
 
-A bootloader loads a dtb into memory and passes the loading address specified at register ``x0`` to the kernel.
-Besides, it modifies the original dtb content to match the actual machine setting.
-For example, it adds the initial ramdisk's loading address in dtb if you ask the bootloader to load an initial ramdisk.
+.. image:: images/lab2_dtb_layout.png
 
-**QEMU**
+The structure is further divided into the FTD header, memory reservation block, structure block, and strings block. 
+Here, we primarily utilize the structure block and strings block to obtain device information, which can be accessed through the header.
 
-Add the argument ``-dtb bcm2710-rpi-3-b-plus.dtb`` to QEMU.
+The Flattened Devicetree Header Fields are as follows (`5.2. Header <https://devicetree-specification.readthedocs.io/en/stable/flattened-format.html#header>`_.):
 
-**Rpi3**
+.. code-block:: c
 
-Move ``bcm2710-rpi-3-b-plus.dtb`` into SD card.
+  struct fdt_header {
+      uint32_t magic;
+      uint32_t totalsize;
+      uint32_t off_dt_struct;
+      uint32_t off_dt_strings;
+      uint32_t off_mem_rsvmap;
+      uint32_t version;
+      uint32_t last_comp_version;
+      uint32_t boot_cpuid_phys;
+      uint32_t size_dt_strings;
+      uint32_t size_dt_struct;
+  };
+
+Please note that all the header fields are 32-bit integers, stored in big-endian format.
+
+
+The stucture block can be further devided into several tokens, each containing its specific data. 
+Below is a simple example of the layout with token descriptions. 
+For more implementation details, please refer to (`5.4. Structure Block <https://devicetree-specification.readthedocs.io/en/stable/flattened-format.html#structure-block>`_.)
+
+.. code-block:: c
+
+  / {
+   soc { // FDT_BEGIN_NODE "soc"
+    compatible = "simple-bus"; // FDT_PROP
+    interrupt-parent = <&intc>; // FDT_PROP
+    intc: interrupt-controller@f8f01000 { // FDT_BEGIN_NODE "interrupt-controller@f8f01000"
+    compatible = "arm,cortex-a9-gic"; // FDT_PROP
+    reg = <0xF8F01000 0x1000>, // FDT_PROP
+    <0xF8F00100 0x100>;
+    }; // FDT_END_NODE
+   }; // FDT_END_NODE
+  }; // FDT_END
 
 .. admonition:: Todo
 
@@ -308,9 +375,28 @@ The folloing code is a breif example of the API. You can design it in your own w
 
 .. admonition:: Todo
 
-   Use the API to get the address of initramfs instead of hardcoding it.
+   Use the API to get the address of initramfs instead of hardcoding it. The initramfs address is located in the /chosen/linux,initrd-start node.
+
+
+Dtb Loading
+-----------
+
+A bootloader loads a dtb into memory and passes the loading address specified at register ``x0`` to the kernel.
+Besides, it modifies the original dtb content to match the actual machine setting.
+For example, it adds the initial ramdisk's loading address in dtb if you ask the bootloader to load an initial ramdisk.
+
+**QEMU**
+
+Add the argument ``-dtb bcm2710-rpi-3-b-plus.dtb`` to QEMU.
+
+**Rpi3**
+
+Move ``bcm2710-rpi-3-b-plus.dtb`` into SD card.
 
 .. admonition:: Todo
 
    Modify your bootloader for passing the device tree loading address.
 
+.. hint::
+
+   You may use assembly to store and retrieve the x0 register for the initramfs address.
