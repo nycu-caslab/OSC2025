@@ -421,13 +421,9 @@ The initialization of the remaining subsystems will be introduced at later labs.
 <span class="w">    </span><span class="n">set</span><span class="p">(</span><span class="n">PM_RSTC</span><span class="p">,</span><span class="w"> </span><span class="n">PM_PASSWORD</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="mh">0x20</span><span class="p">);</span><span class="w">  </span><span class="c1">// full reset</span>
 <span class="w">    </span><span class="n">set</span><span class="p">(</span><span class="n">PM_WDOG</span><span class="p">,</span><span class="w"> </span><span class="n">PM_PASSWORD</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">tick</span><span class="p">);</span><span class="w">  </span><span class="c1">// number of watchdog tick</span>
 <span class="p">}</span>
-
-<span class="kt">void</span><span class="w"> </span><span class="nf">cancel_reset</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">set</span><span class="p">(</span><span class="n">PM_RSTC</span><span class="p">,</span><span class="w"> </span><span class="n">PM_PASSWORD</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w">  </span><span class="c1">// full reset</span>
-<span class="w">    </span><span class="n">set</span><span class="p">(</span><span class="n">PM_WDOG</span><span class="p">,</span><span class="w"> </span><span class="n">PM_PASSWORD</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w">  </span><span class="c1">// number of watchdog tick</span>
-<span class="p">}</span>
 </pre></div>
 </div>
+<p>For detailed information on register addresses and control, please refer to <a class="reference external" href="https://github.com/rsta2/circle/blob/master/include/circle/bcm2835.h">Power Manager part in bcm2835.h</a> and <a class="reference external" href="https://github.com/torvalds/linux/blob/master/drivers/watchdog/bcm2835_wdt.c">Linux source code for bcm2835_wdt.c</a></p>
 <div class="admonition-todo admonition">
 <p class="admonition-title">Todo</p>
 <p>Add a &lt;reboot&gt; command.</p>
@@ -435,7 +431,7 @@ The initialization of the remaining subsystems will be introduced at later labs.
 </section>
 <section id="basic-exercise-2-uart-bootloader-30">
 <h3>Basic Exercise 2 - UART Bootloader - 30%<a class="headerlink" href="#basic-exercise-2-uart-bootloader-30" title="Link to this heading">#</a></h3>
-<p>In Lab 1, you might experience the process of moving the SD card between your host and rpi3 very often during debugging.
+<p>When loading the kernel image onto the Raspberry Pi 3B, you might experience the process of moving the SD card between your host and rpi3 very often during debugging.
 You can eliminate this by introducing another bootloader to load the kernel under debugging.</p>
 <p>To send binary through UART, you should devise a protocol to read raw data.
 It rarely drops data during transmission, so you can keep the protocol simple. Here is a simple example of what a protocol might look like.</p>
@@ -547,14 +543,6 @@ In the later labs, you will also put script files and executables inside to auto
 <section id="basic-exercise-4-simple-allocator-10">
 <h3>Basic Exercise 4 - Simple Allocator - 10%<a class="headerlink" href="#basic-exercise-4-simple-allocator-10" title="Link to this heading">#</a></h3>
 <p>Kernel needs an allocator in the progress of subsystem initialization. However, the dynamic allocator is also a subsystem that need to be initialized. So we need a simple allocator in the early stage of booting.</p>
-<div class="admonition-todo admonition">
-<p class="admonition-title">Todo</p>
-<p>Implement a alloc function that returns a pointer points to a continuous space for requested size.</p>
-</div>
-<div class="admonition hint">
-<p class="admonition-title">Hint</p>
-<p>Your allocator don’t need to support free function.</p>
-</div>
 <p>The folloing code is a breif example:</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="nf">simple_malloc</span><span class="p">(</span><span class="kt">size_t</span><span class="w"> </span><span class="n">size</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="p">...</span>
@@ -567,6 +555,14 @@ In the later labs, you will also put script files and executables inside to auto
 </div>
 <p>In this simple allocator, the heap is a pre-allocated memory pool used for dynamic memory requests.
 We can request memory dynamically from the pool by passing a size argument. The allocator works by linearly allocating memory and ensuring that the requested allocation does not exceed the available space in the heap, and the function returns a pointer to the allocated memory.</p>
+<div class="admonition-todo admonition">
+<p class="admonition-title">Todo</p>
+<p>Add a &lt;memAlloc&gt; command and implement a alloc function that returns a pointer points to a continuous space for requested size.</p>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>Your allocator don’t need to support free function.</p>
+</div>
 </section>
 </section>
 <section id="advanced-exercises">
@@ -636,7 +632,7 @@ Here, we primarily utilize the structure block and strings block to obtain devic
 <p>Please note that all the header fields are 32-bit integers, stored in big-endian format.</p>
 <p>The stucture block can be further devided into several tokens, each containing its specific data.
 Below is a simple example of the layout with token descriptions.
-For more implementation details, please refer to (<a class="reference external" href="https://devicetree-specification.readthedocs.io/en/stable/flattened-format.html#structure-block">5.4. Structure Block</a>.)</p>
+For more implementation details, please refer to <a class="reference external" href="https://devicetree-specification.readthedocs.io/en/stable/flattened-format.html#structure-block">5.4. Structure Block</a>.</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="w"> </span><span class="p">{</span>
 <span class="w"> </span><span class="n">soc</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// FDT_BEGIN_NODE &quot;soc&quot;</span>
 <span class="w">  </span><span class="n">compatible</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;simple-bus&quot;</span><span class="p">;</span><span class="w"> </span><span class="c1">// FDT_PROP</span>
@@ -680,11 +676,11 @@ For example, it adds the initial ramdisk’s loading address in dtb if you ask t
 <p>Move <code class="docutils literal notranslate"><span class="pre">bcm2710-rpi-3-b-plus.dtb</span></code> into SD card.</p>
 <div class="admonition-todo admonition">
 <p class="admonition-title">Todo</p>
-<p>Modify your bootloader for passing the device tree loading address.</p>
+<p>Modify your bootloader for passing the device tree loading address. Remember to change the line in config.txt from “initramfs initramfs.cpio 0x20000000” to “initramfs initramfs.cpio” only.</p>
 </div>
 <div class="admonition hint">
 <p class="admonition-title">Hint</p>
-<p>You may use assembly to store and retrieve the x0 register for the initramfs address.</p>
+<p>You may use x0 register to store and retrieve dtb address, and parse the dtb file to get initramfs address.</p>
 </div>
 </section>
 </section>
