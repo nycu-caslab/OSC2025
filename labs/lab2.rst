@@ -227,14 +227,6 @@ Basic Exercise 4 - Simple Allocator - 10%
 =========================================
 Kernel needs an allocator in the progress of subsystem initialization. However, the dynamic allocator is also a subsystem that need to be initialized. So we need a simple allocator in the early stage of booting.
 
-.. admonition:: Todo
-
-    Add a <memAlloc> command and implement a alloc function that returns a pointer points to a continuous space for requested size.
-
-.. hint::
-
-   Your allocator don't need to support free function.
-
 The folloing code is a breif example:
 
 .. code-block:: c
@@ -249,6 +241,15 @@ The folloing code is a breif example:
 
 In this simple allocator, the heap is a pre-allocated memory pool used for dynamic memory requests.
 We can request memory dynamically from the pool by passing a size argument. The allocator works by linearly allocating memory and ensuring that the requested allocation does not exceed the available space in the heap, and the function returns a pointer to the allocated memory.
+
+.. admonition:: Todo
+
+    Add a <memAlloc> command and implement a alloc function that returns a pointer points to a continuous space for requested size.
+
+.. hint::
+
+   Your allocator don't need to support free function.
+
 
 ##################
 Advanced Exercises
