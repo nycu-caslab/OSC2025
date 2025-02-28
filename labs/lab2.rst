@@ -76,10 +76,7 @@ You can follow this example code to reset your rpi3.
       set(PM_WDOG, PM_PASSWORD | tick);  // number of watchdog tick
   }
   
-  void cancel_reset() {
-      set(PM_RSTC, PM_PASSWORD | 0);  // full reset
-      set(PM_WDOG, PM_PASSWORD | 0);  // number of watchdog tick
-  }
+For detailed information on register addresses and control, please refer to `Power Manager part in bcm2835.h <https://github.com/rsta2/circle/blob/master/include/circle/bcm2835.h>`_ and `Linux source code for bcm2835_wdt.c <https://github.com/torvalds/linux/blob/master/drivers/watchdog/bcm2835_wdt.c>`_
   
 
 .. admonition:: Todo
@@ -89,7 +86,7 @@ You can follow this example code to reset your rpi3.
 Basic Exercise 2 - UART Bootloader - 30%
 ========================================
 
-In Lab 1, you might experience the process of moving the SD card between your host and rpi3 very often during debugging.
+When loading the kernel image onto the Raspberry Pi 3B, you might experience the process of moving the SD card between your host and rpi3 very often during debugging.
 You can eliminate this by introducing another bootloader to load the kernel under debugging.
 
 To send binary through UART, you should devise a protocol to read raw data. 
@@ -230,14 +227,6 @@ Basic Exercise 4 - Simple Allocator - 10%
 =========================================
 Kernel needs an allocator in the progress of subsystem initialization. However, the dynamic allocator is also a subsystem that need to be initialized. So we need a simple allocator in the early stage of booting.
 
-.. admonition:: Todo
-
-    Implement a alloc function that returns a pointer points to a continuous space for requested size.
-
-.. hint::
-
-   Your allocator don't need to support free function.
-
 The folloing code is a breif example:
 
 .. code-block:: c
@@ -252,6 +241,15 @@ The folloing code is a breif example:
 
 In this simple allocator, the heap is a pre-allocated memory pool used for dynamic memory requests.
 We can request memory dynamically from the pool by passing a size argument. The allocator works by linearly allocating memory and ensuring that the requested allocation does not exceed the available space in the heap, and the function returns a pointer to the allocated memory.
+
+.. admonition:: Todo
+
+    Add a <memAlloc> command and implement a alloc function that returns a pointer points to a continuous space for requested size.
+
+.. hint::
+
+   Your allocator don't need to support free function.
+
 
 ##################
 Advanced Exercises
@@ -341,7 +339,7 @@ Please note that all the header fields are 32-bit integers, stored in big-endian
 
 The stucture block can be further devided into several tokens, each containing its specific data. 
 Below is a simple example of the layout with token descriptions. 
-For more implementation details, please refer to (`5.4. Structure Block <https://devicetree-specification.readthedocs.io/en/stable/flattened-format.html#structure-block>`_.)
+For more implementation details, please refer to `5.4. Structure Block <https://devicetree-specification.readthedocs.io/en/stable/flattened-format.html#structure-block>`_.
 
 .. code-block:: c
 
@@ -395,8 +393,8 @@ Move ``bcm2710-rpi-3-b-plus.dtb`` into SD card.
 
 .. admonition:: Todo
 
-   Modify your bootloader for passing the device tree loading address.
+   Modify your bootloader for passing the device tree loading address. Remember to change the line in config.txt from "initramfs initramfs.cpio 0x20000000" to "initramfs initramfs.cpio" only.
 
 .. hint::
 
-   You may use assembly to store and retrieve the x0 register for the initramfs address.
+   You may use x0 register to store and retrieve dtb address, and parse the dtb file to get initramfs address.
