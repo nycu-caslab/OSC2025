@@ -397,4 +397,4 @@ Move ``bcm2710-rpi-3-b-plus.dtb`` into SD card.
 
 .. hint::
 
-   You may use assembly to store and retrieve the x0 register for the initramfs address.
+   You may use assembly to store and retrieve the x0 register for the dtb address.
