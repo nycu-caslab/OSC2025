@@ -393,7 +393,7 @@ Move ``bcm2710-rpi-3-b-plus.dtb`` into SD card.
 
 .. admonition:: Todo
 
-   Modify your bootloader for passing the device tree loading address.
+   Modify your bootloader for passing the device tree loading address. Remember to change the line in config.txt from "initramfs initramfs.cpio 0x20000000" to "initramfs initramfs.cpio" only.
 
 .. hint::
 
