@@ -229,7 +229,7 @@ Kernel needs an allocator in the progress of subsystem initialization. However, 
 
 .. admonition:: Todo
 
-    Implement a alloc function that returns a pointer points to a continuous space for requested size.
+    Add a <memAlloc> command and implement a alloc function that returns a pointer points to a continuous space for requested size.
 
 .. hint::
 
