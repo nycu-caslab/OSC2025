@@ -227,7 +227,7 @@ Basic Exercise 4 - Simple Allocator - 10%
 =========================================
 Kernel needs an allocator in the progress of subsystem initialization. However, the dynamic allocator is also a subsystem that need to be initialized. So we need a simple allocator in the early stage of booting.
 
-The folloing code is a breif example:
+The following code is a brief example:
 
 .. code-block:: c
 
