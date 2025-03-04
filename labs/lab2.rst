@@ -231,7 +231,7 @@ The folloing code is a breif example:
 
 .. code-block:: c
 
-    void* simple_malloc(size_t size) {
+    void* simple_alloc(size_t size) {
       ...
     }
     
