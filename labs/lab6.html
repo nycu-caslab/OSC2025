@@ -342,7 +342,7 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-exercises">Basic Exercises</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-exercise-1-virtual-memory-in-kernel-space-10">Basic Exercise 1 - Virtual Memory in Kernel Space - 10%</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-exercise-1-virtual-memory-in-kernel-space">Basic Exercise 1 - Virtual Memory in Kernel Space - %</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#translation-control-register-tcr">Translation Control Register (TCR)</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#memory-attribute-indirection-register-mair">Memory Attribute Indirection Register (MAIR)</a><ul class="nav section-nav flex-column">
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#brief-introduction">Brief Introduction</a></li>
@@ -354,7 +354,7 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#finer-granularity-paging">Finer Granularity Paging</a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-exercise-2-virtual-memory-in-user-space-30">Basic Exercise 2 - Virtual Memory in User Space - 30%</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-exercise-2-virtual-memory-in-user-space">Basic Exercise 2 - Virtual Memory in User Space - %</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pgd-allocation">PGD Allocation</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#map-the-user-space">Map the User Space</a><ul class="nav section-nav flex-column">
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#revisit-syscalls">Revisit Syscalls</a></li>
@@ -363,17 +363,17 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#context-switch">Context Switch</a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#video-player-40">Video Player - 40%</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#video-player">Video Player - %</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#advanced-exercises">Advanced Exercises</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#advanced-exercise-1-mmap-10">Advanced Exercise 1 - Mmap - 10%</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#advanced-exercise-1-mmap">Advanced Exercise 1 - Mmap - %</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#api-specification">API Specification</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#region-page-mapping">Region Page Mapping</a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#advanced-exercise-2-page-fault-handler-demand-paging-10">Advanced Exercise 2 - Page Fault Handler &amp; Demand Paging - 10%</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#advanced-exercise-3-copy-on-write-10">Advanced Exercise 3 - Copy on Write - 10%</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#advanced-exercise-2-page-fault-handler-demand-paging">Advanced Exercise 2 - Page Fault Handler &amp; Demand Paging - %</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#advanced-exercise-3-copy-on-write">Advanced Exercise 3 - Copy on Write - %</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#on-fork-a-new-process">On Fork a New Process</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#when-either-children-or-parent-write-to-that-page">When Either Children or Parent Write to that Page</a></li>
 </ul>
@@ -530,8 +530,8 @@ For details, you can refer to</p>
 </section>
 <section id="basic-exercises">
 <h2>Basic Exercises<a class="headerlink" href="#basic-exercises" title="Link to this heading">#</a></h2>
-<section id="basic-exercise-1-virtual-memory-in-kernel-space-10">
-<h3>Basic Exercise 1 - Virtual Memory in Kernel Space - 10%<a class="headerlink" href="#basic-exercise-1-virtual-memory-in-kernel-space-10" title="Link to this heading">#</a></h3>
+<section id="basic-exercise-1-virtual-memory-in-kernel-space">
+<h3>Basic Exercise 1 - Virtual Memory in Kernel Space - %<a class="headerlink" href="#basic-exercise-1-virtual-memory-in-kernel-space" title="Link to this heading">#</a></h3>
 <p>We provide a step-by-step tutorial to guide you to make your original kernel works with virtual memory.
 However, we only give the essential explanation in each step.
 For details, please refer to the manual.</p>
@@ -708,8 +708,8 @@ Hence, you should map most of the RAM as normal memory and MMIO region as device
 </div>
 </section>
 </section>
-<section id="basic-exercise-2-virtual-memory-in-user-space-30">
-<h3>Basic Exercise 2 - Virtual Memory in User Space - 30%<a class="headerlink" href="#basic-exercise-2-virtual-memory-in-user-space-30" title="Link to this heading">#</a></h3>
+<section id="basic-exercise-2-virtual-memory-in-user-space">
+<h3>Basic Exercise 2 - Virtual Memory in User Space - %<a class="headerlink" href="#basic-exercise-2-virtual-memory-in-user-space" title="Link to this heading">#</a></h3>
 <section id="pgd-allocation">
 <h4>PGD Allocation<a class="headerlink" href="#pgd-allocation" title="Link to this heading">#</a></h4>
 <p>To isolate user processes, you should create an address space for each of them.
@@ -778,8 +778,8 @@ Also, a TLB invalidation is needed because the old values are staled.</p>
 </div>
 </section>
 </section>
-<section id="video-player-40">
-<h3>Video Player - 40%<a class="headerlink" href="#video-player-40" title="Link to this heading">#</a></h3>
+<section id="video-player">
+<h3>Video Player - %<a class="headerlink" href="#video-player" title="Link to this heading">#</a></h3>
 <p>In order to test the correctness of your previous implementation, we create a <a class="reference download internal" download="" href="../_downloads/4a3ff2431ab7fa74536c184270dbe5c0/vm.img"><code class="xref download docutils literal notranslate"><span class="pre">user</span> <span class="pre">program</span></code></a> that runs only if your kernel behaves as expected.</p>
 <div class="admonition-note admonition">
 <p class="admonition-title">Note</p>
@@ -793,8 +793,8 @@ Also, a TLB invalidation is needed because the old values are staled.</p>
 </section>
 <section id="advanced-exercises">
 <h2>Advanced Exercises<a class="headerlink" href="#advanced-exercises" title="Link to this heading">#</a></h2>
-<section id="advanced-exercise-1-mmap-10">
-<h3>Advanced Exercise 1 - Mmap - 10%<a class="headerlink" href="#advanced-exercise-1-mmap-10" title="Link to this heading">#</a></h3>
+<section id="advanced-exercise-1-mmap">
+<h3>Advanced Exercise 1 - Mmap - %<a class="headerlink" href="#advanced-exercise-1-mmap" title="Link to this heading">#</a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">mmap()</span></code> is the system call to create memory regions for a user process.
 Each region can be mapped to a file or anonymous page(the page frames not related to any file) with different protection.
 Then, users can create heap and memory-mapped files using the system call.</p>
@@ -857,8 +857,8 @@ Memory regions such as <strong>.bss</strong> and <strong>user stack</strong> can
 </div>
 </section>
 </section>
-<section id="advanced-exercise-2-page-fault-handler-demand-paging-10">
-<h3>Advanced Exercise 2 - Page Fault Handler &amp; Demand Paging - 10%<a class="headerlink" href="#advanced-exercise-2-page-fault-handler-demand-paging-10" title="Link to this heading">#</a></h3>
+<section id="advanced-exercise-2-page-fault-handler-demand-paging">
+<h3>Advanced Exercise 2 - Page Fault Handler &amp; Demand Paging - %<a class="headerlink" href="#advanced-exercise-2-page-fault-handler-demand-paging" title="Link to this heading">#</a></h3>
 <p>The page frames are pre-allocated in the previous parts.
 However, user program might allocate a huge space on heap or memory mapped files without using it.
 The kerenl wastes the CPU time and the physical memory on this things.</p>
@@ -890,8 +890,8 @@ The kernel only allocates the PGD for newly created process in the beggining.</p
 <p>Implement demand paging.</p>
 </div>
 </section>
-<section id="advanced-exercise-3-copy-on-write-10">
-<h3>Advanced Exercise 3 - Copy on Write - 10%<a class="headerlink" href="#advanced-exercise-3-copy-on-write-10" title="Link to this heading">#</a></h3>
+<section id="advanced-exercise-3-copy-on-write">
+<h3>Advanced Exercise 3 - Copy on Write - %<a class="headerlink" href="#advanced-exercise-3-copy-on-write" title="Link to this heading">#</a></h3>
 <p>When a process call <code class="docutils literal notranslate"><span class="pre">fork()</span></code> to create a child process,
 the kernel needs to copy all the page frames owned by the parent in the previous implementation.
 Otherwise, a write by either child or parent might not be awared by the other one and induce error.</p>
@@ -1001,7 +1001,7 @@ And you should not reclaim the page frame if there is still someone referring to
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-exercises">Basic Exercises</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-exercise-1-virtual-memory-in-kernel-space-10">Basic Exercise 1 - Virtual Memory in Kernel Space - 10%</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-exercise-1-virtual-memory-in-kernel-space">Basic Exercise 1 - Virtual Memory in Kernel Space - %</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#translation-control-register-tcr">Translation Control Register (TCR)</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#memory-attribute-indirection-register-mair">Memory Attribute Indirection Register (MAIR)</a><ul class="nav section-nav flex-column">
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#brief-introduction">Brief Introduction</a></li>
@@ -1013,7 +1013,7 @@ And you should not reclaim the page frame if there is still someone referring to
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#finer-granularity-paging">Finer Granularity Paging</a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-exercise-2-virtual-memory-in-user-space-30">Basic Exercise 2 - Virtual Memory in User Space - 30%</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-exercise-2-virtual-memory-in-user-space">Basic Exercise 2 - Virtual Memory in User Space - %</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pgd-allocation">PGD Allocation</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#map-the-user-space">Map the User Space</a><ul class="nav section-nav flex-column">
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#revisit-syscalls">Revisit Syscalls</a></li>
@@ -1022,17 +1022,17 @@ And you should not reclaim the page frame if there is still someone referring to
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#context-switch">Context Switch</a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#video-player-40">Video Player - 40%</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#video-player">Video Player - %</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#advanced-exercises">Advanced Exercises</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#advanced-exercise-1-mmap-10">Advanced Exercise 1 - Mmap - 10%</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#advanced-exercise-1-mmap">Advanced Exercise 1 - Mmap - %</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#api-specification">API Specification</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#region-page-mapping">Region Page Mapping</a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#advanced-exercise-2-page-fault-handler-demand-paging-10">Advanced Exercise 2 - Page Fault Handler &amp; Demand Paging - 10%</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#advanced-exercise-3-copy-on-write-10">Advanced Exercise 3 - Copy on Write - 10%</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#advanced-exercise-2-page-fault-handler-demand-paging">Advanced Exercise 2 - Page Fault Handler &amp; Demand Paging - %</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#advanced-exercise-3-copy-on-write">Advanced Exercise 3 - Copy on Write - %</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#on-fork-a-new-process">On Fork a New Process</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#when-either-children-or-parent-write-to-that-page">When Either Children or Parent Write to that Page</a></li>
 </ul>

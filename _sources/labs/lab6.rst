@@ -164,7 +164,7 @@ For details, you can refer to
 Basic Exercises
 ###############
 
-Basic Exercise 1 - Virtual Memory in Kernel Space - 10%
+Basic Exercise 1 - Virtual Memory in Kernel Space - %
 =======================================================
 
 We provide a step-by-step tutorial to guide you to make your original kernel works with virtual memory.
@@ -360,7 +360,7 @@ Then, you should use three-level translation(2MB) or four-level translation(4KB)
 
   Linear map kernel with finer granularity and map RAM as normal memory.
 
-Basic Exercise 2 - Virtual Memory in User Space - 30%
+Basic Exercise 2 - Virtual Memory in User Space - %
 =====================================================
 
 PGD Allocation
@@ -442,7 +442,7 @@ Also, a TLB invalidation is needed because the old values are staled.
   Set ``ttbr0_el1`` to switch the address space in context switches.
 
 
-Video Player - 40%
+Video Player - %
 ==================
 
 In order to test the correctness of your previous implementation, we create a :download:`user program <vm.img>` that runs only if your kernel behaves as expected.
@@ -459,7 +459,7 @@ In order to test the correctness of your previous implementation, we create a :d
 Advanced Exercises
 ##################
 
-Advanced Exercise 1 - Mmap - 10%
+Advanced Exercise 1 - Mmap - %
 ================================
 
 ``mmap()`` is the system call to create memory regions for a user process.
@@ -525,7 +525,7 @@ If the user specifies MAP_POPULATE in the mmap() call. The kernel should create 
 
 
 
-Advanced Exercise 2 - Page Fault Handler & Demand Paging - 10%
+Advanced Exercise 2 - Page Fault Handler & Demand Paging - %
 ==============================================================
 
 The page frames are pre-allocated in the previous parts.
@@ -561,7 +561,7 @@ When a page fault is generated,
 
   Implement demand paging.
 
-Advanced Exercise 3 - Copy on Write - 10%
+Advanced Exercise 3 - Copy on Write - %
 =========================================
 
 When a process call ``fork()`` to create a child process,
