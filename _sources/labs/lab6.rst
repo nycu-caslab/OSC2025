@@ -577,7 +577,7 @@ The following statements is a possible copy-on-write implementation.
 On Fork a New Process
 ---------------------
 
-1. Copy the page frames of page tables.
+1. Child PTE map to the same page frames as parent.
 
 2. Then mark PTE entries of **both child and parent** to be **read-only** even for original read-write pages.
 

@@ -902,7 +902,7 @@ Hence, a copy-on-write mechanism comes to help these odds.</p>
 <section id="on-fork-a-new-process">
 <h4>On Fork a New Process<a class="headerlink" href="#on-fork-a-new-process" title="Link to this heading">#</a></h4>
 <ol class="arabic simple">
-<li><p>Copy the page frames of page tables.</p></li>
+<li><p>Child PTE map to the same page frames as parent.</p></li>
 <li><p>Then mark PTE entries of <strong>both child and parent</strong> to be <strong>read-only</strong> even for original read-write pages.</p></li>
 </ol>
 </section>
