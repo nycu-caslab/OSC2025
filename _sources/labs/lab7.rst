@@ -177,7 +177,7 @@ to re-design or modify the code.
 
 
 
-Basic Exercise 1 - Root File System - %
+Basic Exercise 1 - Root File System - 35%
 ==========================================
 
 In this part, you'll need to implement tmpfs which follows the VFS 
@@ -255,7 +255,7 @@ create an regular file on underlying file system, should fail
 if file exist. Then passes the file's vnode back to VFS.
 
 
-Basic Exercise 2 - Multi-level VFS - %
+Basic Exercise 2 - Multi-level VFS - 15%
 =========================================
 
 In this part, your VFS should be able to
@@ -305,7 +305,7 @@ pseudo code, this code doesn't show crossing of mount point or relative pathname
     return 0;
   }
 
-Basic Exercise 3 - Multitask VFS - %
+Basic Exercise 3 - Multitask VFS - 15%
 =======================================
 
 In this part, you need to implement
@@ -374,7 +374,7 @@ You'll need to provide the following system calls
 
 
 
-Basic Exercise 4 - /initramfs - %
+Basic Exercise 4 - /initramfs - 15%
 ===================================
 
 In this part, you need to make initramfs as an read only 
@@ -442,7 +442,7 @@ As long as it's not hard coded on VFS, and it works fine with VFS api.
   5. mount ``"framebufferfs"`` on ``"/dev/framebuffer"``
 
 
-Advanced Exercises 1 - /dev/uart - %
+Advanced Exercises 1 - /dev/uart - 15%
 ======================================
 
 You need to create a device file at ``"/dev/uart"`` for your UART 
@@ -457,7 +457,7 @@ and stderr (fd 2), for user process
   // there should be output on terminal
   write(1, "hello world\n", 12);
 
-Advanced Exercises 2 - /dev/framebuffer - %
+Advanced Exercises 2 - /dev/framebuffer - 15%
 ==============================================================
 
 In previous lab, we use mbox_call to establish framebuffer, and 

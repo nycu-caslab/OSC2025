@@ -336,7 +336,7 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-exercises">Basic Exercises</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-exercise-1-root-file-system">Basic Exercise 1 - Root File System - %</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-exercise-1-root-file-system-35">Basic Exercise 1 - Root File System - 35%</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#file-system-registration">File System Registration</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mounting-file-system">Mounting File System</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#root-directory-s-vnode">Root directory’s vnode</a></li>
@@ -348,19 +348,19 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#create-method">Create Method</a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-exercise-2-multi-level-vfs">Basic Exercise 2 - Multi-level VFS - %</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-exercise-2-multi-level-vfs-15">Basic Exercise 2 - Multi-level VFS - 15%</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mkdir-method">Mkdir Method</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mounting-another-file-system">Mounting Another File System</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pathname-lookup">Pathname Lookup</a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-exercise-3-multitask-vfs">Basic Exercise 3 - Multitask VFS - %</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-exercise-3-multitask-vfs-15">Basic Exercise 3 - Multitask VFS - 15%</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#current-working-directory">Current Working Directory</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#file-descriptor-table">File Descriptor Table</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#system-calls-for-vfs">System Calls for VFS</a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-exercise-4-initramfs">Basic Exercise 4 - /initramfs - %</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-exercise-4-initramfs-15">Basic Exercise 4 - /initramfs - 15%</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#advanced-exercises">Advanced Exercises</a><ul class="nav section-nav flex-column">
@@ -370,8 +370,8 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#alternative">Alternative</a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#advanced-exercises-1-dev-uart">Advanced Exercises 1 - /dev/uart - %</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#advanced-exercises-2-dev-framebuffer">Advanced Exercises 2 - /dev/framebuffer - %</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#advanced-exercises-1-dev-uart-15">Advanced Exercises 1 - /dev/uart - 15%</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#advanced-exercises-2-dev-framebuffer-15">Advanced Exercises 2 - /dev/framebuffer - 15%</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#test">Test</a></li>
 </ul>
 </li>
@@ -543,8 +543,8 @@ to re-design or modify the code.</p>
 <span class="p">...</span>
 </pre></div>
 </div>
-<section id="basic-exercise-1-root-file-system">
-<h3>Basic Exercise 1 - Root File System - %<a class="headerlink" href="#basic-exercise-1-root-file-system" title="Link to this heading">#</a></h3>
+<section id="basic-exercise-1-root-file-system-35">
+<h3>Basic Exercise 1 - Root File System - 35%<a class="headerlink" href="#basic-exercise-1-root-file-system-35" title="Link to this heading">#</a></h3>
 <p>In this part, you’ll need to implement tmpfs which follows the VFS
 interface, setup tmpfs as the root file system.</p>
 <section id="file-system-registration">
@@ -607,8 +607,8 @@ vnode to the VFS if it finds the file.</p>
 if file exist. Then passes the file’s vnode back to VFS.</p>
 </section>
 </section>
-<section id="basic-exercise-2-multi-level-vfs">
-<h3>Basic Exercise 2 - Multi-level VFS - %<a class="headerlink" href="#basic-exercise-2-multi-level-vfs" title="Link to this heading">#</a></h3>
+<section id="basic-exercise-2-multi-level-vfs-15">
+<h3>Basic Exercise 2 - Multi-level VFS - 15%<a class="headerlink" href="#basic-exercise-2-multi-level-vfs-15" title="Link to this heading">#</a></h3>
 <p>In this part, your VFS should be able to</p>
 <ul class="simple">
 <li><p>create subdirectories</p></li>
@@ -651,8 +651,8 @@ root vnode.</p>
 </div>
 </section>
 </section>
-<section id="basic-exercise-3-multitask-vfs">
-<h3>Basic Exercise 3 - Multitask VFS - %<a class="headerlink" href="#basic-exercise-3-multitask-vfs" title="Link to this heading">#</a></h3>
+<section id="basic-exercise-3-multitask-vfs-15">
+<h3>Basic Exercise 3 - Multitask VFS - 15%<a class="headerlink" href="#basic-exercise-3-multitask-vfs-15" title="Link to this heading">#</a></h3>
 <p>In this part, you need to implement</p>
 <ul class="simple">
 <li><p>current working directory</p></li>
@@ -712,8 +712,8 @@ and return the result to the user.</p>
 </div>
 </section>
 </section>
-<section id="basic-exercise-4-initramfs">
-<h3>Basic Exercise 4 - /initramfs - %<a class="headerlink" href="#basic-exercise-4-initramfs" title="Link to this heading">#</a></h3>
+<section id="basic-exercise-4-initramfs-15">
+<h3>Basic Exercise 4 - /initramfs - 15%<a class="headerlink" href="#basic-exercise-4-initramfs-15" title="Link to this heading">#</a></h3>
 <p>In this part, you need to make initramfs as an read only
 file system which follows the VFS interface, and mount
 on <code class="docutils literal notranslate"><span class="pre">&quot;/initramfs&quot;</span></code>.</p>
@@ -774,8 +774,8 @@ As long as it’s not hard coded on VFS, and it works fine with VFS api.</p>
 </ul>
 </section>
 </section>
-<section id="advanced-exercises-1-dev-uart">
-<h3>Advanced Exercises 1 - /dev/uart - %<a class="headerlink" href="#advanced-exercises-1-dev-uart" title="Link to this heading">#</a></h3>
+<section id="advanced-exercises-1-dev-uart-15">
+<h3>Advanced Exercises 1 - /dev/uart - 15%<a class="headerlink" href="#advanced-exercises-1-dev-uart-15" title="Link to this heading">#</a></h3>
 <p>You need to create a device file at <code class="docutils literal notranslate"><span class="pre">&quot;/dev/uart&quot;</span></code> for your UART
 device as the console. R/W to this file is same as
 uartread / uartwrite.</p>
@@ -786,8 +786,8 @@ and stderr (fd 2), for user process</p>
 </pre></div>
 </div>
 </section>
-<section id="advanced-exercises-2-dev-framebuffer">
-<h3>Advanced Exercises 2 - /dev/framebuffer - %<a class="headerlink" href="#advanced-exercises-2-dev-framebuffer" title="Link to this heading">#</a></h3>
+<section id="advanced-exercises-2-dev-framebuffer-15">
+<h3>Advanced Exercises 2 - /dev/framebuffer - 15%<a class="headerlink" href="#advanced-exercises-2-dev-framebuffer-15" title="Link to this heading">#</a></h3>
 <p>In previous lab, we use mbox_call to establish framebuffer, and
 mapped VC memory for user in order to use framebuffer.
 Which means a system call and memory map is needed for
@@ -977,7 +977,7 @@ info), which are also VFS api using underlying method.</p>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-exercises">Basic Exercises</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-exercise-1-root-file-system">Basic Exercise 1 - Root File System - %</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-exercise-1-root-file-system-35">Basic Exercise 1 - Root File System - 35%</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#file-system-registration">File System Registration</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mounting-file-system">Mounting File System</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#root-directory-s-vnode">Root directory’s vnode</a></li>
@@ -989,19 +989,19 @@ info), which are also VFS api using underlying method.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#create-method">Create Method</a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-exercise-2-multi-level-vfs">Basic Exercise 2 - Multi-level VFS - %</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-exercise-2-multi-level-vfs-15">Basic Exercise 2 - Multi-level VFS - 15%</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mkdir-method">Mkdir Method</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mounting-another-file-system">Mounting Another File System</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pathname-lookup">Pathname Lookup</a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-exercise-3-multitask-vfs">Basic Exercise 3 - Multitask VFS - %</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-exercise-3-multitask-vfs-15">Basic Exercise 3 - Multitask VFS - 15%</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#current-working-directory">Current Working Directory</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#file-descriptor-table">File Descriptor Table</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#system-calls-for-vfs">System Calls for VFS</a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-exercise-4-initramfs">Basic Exercise 4 - /initramfs - %</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-exercise-4-initramfs-15">Basic Exercise 4 - /initramfs - 15%</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#advanced-exercises">Advanced Exercises</a><ul class="nav section-nav flex-column">
@@ -1011,8 +1011,8 @@ info), which are also VFS api using underlying method.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#alternative">Alternative</a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#advanced-exercises-1-dev-uart">Advanced Exercises 1 - /dev/uart - %</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#advanced-exercises-2-dev-framebuffer">Advanced Exercises 2 - /dev/framebuffer - %</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#advanced-exercises-1-dev-uart-15">Advanced Exercises 1 - /dev/uart - 15%</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#advanced-exercises-2-dev-framebuffer-15">Advanced Exercises 2 - /dev/framebuffer - 15%</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#test">Test</a></li>
 </ul>
 </li>
